@@ -15,7 +15,7 @@ void app_main(void)
     gpio_set_direction(Button, GPIO_MODE_INPUT);
     gpio_set_direction(Led, GPIO_MODE_OUTPUT);
     gpio_set_pull_mode(Button, GPIO_PULLUP_ONLY);
-    // Definiendo variables
+    // Definiendo variables 
     bool blinking = true;
     // Ciclo principal
     while (true)

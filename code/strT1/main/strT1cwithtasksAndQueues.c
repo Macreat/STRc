@@ -3,7 +3,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
-#define Boton 19
+#define Boton GPIO_NUM_19
 #define Led1 GPIO_NUM_21
 #define Led2 GPIO_NUM_22
 #define Led3 GPIO_NUM_23

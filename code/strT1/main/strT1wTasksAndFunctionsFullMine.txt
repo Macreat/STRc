@@ -25,6 +25,7 @@ void SetPines()
     gpio_set_direction(led3, GPIO_MODE_OUTPUT);
     gpio_set_direction(cled, GPIO_MODE_OUTPUT);
 }
+
 void blinkLed(int pin)
 {
     bool blinking = true;
@@ -41,12 +42,14 @@ void blinkLed(int pin)
         }
     }
 }
+
 void turnOnIndicatorLed(int pin, TickType_t delayTime)
 {
     gpio_set_level(pin, ledON);
     vTaskDelay(delayTime);
     gpio_set_level(pin, ledOFF);
 }
+
 void changeLed(void *pvParameters)
 {
     while (true)
@@ -80,6 +83,7 @@ void changeLed(void *pvParameters)
         }
     }
 }
+
 void app_main(void)
 {
     SetPines();
