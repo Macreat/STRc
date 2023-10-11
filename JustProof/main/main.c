@@ -1,87 +1,108 @@
 #include <stdio.h>
-#include <stdbool.h>
-#include <unistd.h>
-#include <driver/gpio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <math.h>
+#include "driver/gpio.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "esp_log.h"
+#include "freertos/timers.h"
+#include "driver/adc.h"
+#include "freertos/queue.h"
+#include "driver/uart.h"
+#include "esp_intr_alloc.h"
+#include "driver/ledc.h"
 
-#define button 19
-#define led1 21
-#define led2 22
-#define led3 23
-#define portTICK_PERIOD_MS 1
-#define ledOFF 0
-#define ledON 1
+#define BUTTON_PIN 19
+#define LED_PIN 21
+#define INDICATOR_LED_PIN 2
 #define cled 2
+#define LED_ON 1
+#define LED_OFF 0
 
-int currentLed = 0; // Variable para mantener el estado actual del LED
+static const char *TAG = "Button_Task";
+extern bool blinking = true;
 
-void SetPines()
+QueueHandle_t buttonQueue;
+
+void IRAM_ATTR button_isr_handler(void *arg)
 {
-    gpio_set_direction(button, GPIO_MODE_INPUT);
-    gpio_set_pull_mode(button, GPIO_PULLUP_ONLY);
-    gpio_set_direction(led1, GPIO_MODE_OUTPUT);
-    gpio_set_direction(led2, GPIO_MODE_OUTPUT);
-    gpio_set_direction(led3, GPIO_MODE_OUTPUT);
-    gpio_set_direction(cled, GPIO_MODE_OUTPUT);
-}
-void blinkLed(int pin)
-{
-    bool blinking = true;
-    while (blinking)
-    {
-        int estadoButton = gpio_get_level(button);
-        gpio_set_level(pin, ledON);
-        vTaskDelay(10 / portTICK_PERIOD_MS);
-        gpio_set_level(pin, ledOFF);
-        vTaskDelay(10 / portTICK_PERIOD_MS);
-        if (estadoButton == 0)
-        {
-            blinking = false;
-        }
-    }
+    int buttonState = gpio_get_level(BUTTON_PIN);
+    xQueueSendFromISR(buttonQueue, &buttonState, NULL);
 }
 void turnOnIndicatorLed(int pin, TickType_t delayTime)
 {
-    gpio_set_level(pin, ledON);
+    gpio_set_level(pin, LED_ON);
     vTaskDelay(delayTime);
-    gpio_set_level(pin, ledOFF);
+    gpio_set_level(pin, LED_OFF);
 }
-void changeLed(void *pvParameters)
+
+void blinkLed(int pin, bool blink)
 {
-    while (true)
+    while (blink) // Mientras el botón no se presione
     {
-        // Cambia al siguiente LED cuando se presiona el botón
-        int estadoButton = gpio_get_level(button);
-        if (estadoButton == 0)
+
+        gpio_set_level(pin, LED_ON);
+        vTaskDelay(100 / portTICK_PERIOD_MS); // Encendido durante 100 ms
+        gpio_set_level(pin, LED_OFF);
+        vTaskDelay(100 / portTICK_PERIOD_MS); // Apagado durante 100 ms
+        int buttonState = gpio_get_level(BUTTON_PIN);
+        if (buttonState == 0)
         {
-            // Enciende el indicador LED durante 2 segundos
-            turnOnIndicatorLed(cled, pdMS_TO_TICKS(1000));
+            ESP_LOGI(TAG, "Button pressed. Blinking stopped ...");
 
-            // Espera un poco para evitar múltiples detecciones del botón
-            vTaskDelay(pdMS_TO_TICKS(100));
-
-            // Cambia al siguiente LED
-            currentLed = (currentLed + 1) % 3;
-        }
-
-        // Enciende el LED correspondiente
-        switch (currentLed)
-        {
-        case 0:
-            blinkLed(led1);
-            break;
-        case 1:
-            blinkLed(led2);
-            break;
-        case 2:
-            blinkLed(led3);
             break;
         }
     }
+    gpio_set_level(LED_PIN, LED_OFF);
 }
+
+void button_task(void *pvParameters)
+{
+    int buttonState;
+    while (true)
+    {
+        if (xQueueReceive(buttonQueue, &buttonState, portMAX_DELAY))
+        {
+            buttonState == 0 ? (blinking = !blinking,
+                                turnOnIndicatorLed(cled, pdMS_TO_TICKS(1000)), vTaskDelay(1 / portTICK_PERIOD_MS))
+                             : ((void)0, vTaskDelay(1 / portTICK_PERIOD_MS));
+
+            if (blinking)
+            {
+                ESP_LOGI(TAG, "Button pressed. Blinking ...");
+
+                blinkLed(LED_PIN, blinking);
+            }
+            else
+            {
+
+                blinkLed(LED_PIN, blinking);
+            }
+        }
+    }
+}
+
 void app_main(void)
 {
-    SetPines();
-    xTaskCreate(changeLed, "change_led_task", 2048, NULL, 10, NULL);
+    gpio_config_t io_conf = {
+        .pin_bit_mask = (1ULL << BUTTON_PIN),
+        .mode = GPIO_MODE_INPUT,
+        .intr_type = GPIO_INTR_ANYEDGE,
+        .pull_up_en = GPIO_PULLUP_ENABLE};
+
+    gpio_config(&io_conf);
+
+    gpio_config_t led_conf = {
+        .pin_bit_mask = (1ULL << LED_PIN) | (1ULL << INDICATOR_LED_PIN),
+        .mode = GPIO_MODE_OUTPUT};
+
+    gpio_config(&led_conf);
+
+    buttonQueue = xQueueCreate(1, sizeof(int));
+
+    gpio_install_isr_service(0);
+    gpio_isr_handler_add(BUTTON_PIN, button_isr_handler, (void *)BUTTON_PIN);
+
+    xTaskCreate(button_task, "button_task", 2048, NULL, 10, NULL);
 }

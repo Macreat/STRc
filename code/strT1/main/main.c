@@ -4,8 +4,8 @@
 #include <driver/gpio.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#define Button GPIO_NUM_22
-#define Led GPIO_NUM_23
+#define Button 19
+#define Led 23
 #define portTICK_PERIOD_MS 1
 #define LedON 1
 #define LedOFF 0
@@ -15,7 +15,7 @@ void app_main(void)
     gpio_set_direction(Button, GPIO_MODE_INPUT);
     gpio_set_direction(Led, GPIO_MODE_OUTPUT);
     gpio_set_pull_mode(Button, GPIO_PULLUP_ONLY);
-    // Definiendo variables 
+    // Definiendo variables
     bool blinking = true;
     // Ciclo principal
     while (true)
