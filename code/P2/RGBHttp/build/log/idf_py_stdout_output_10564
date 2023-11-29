@@ -1,0 +1,753 @@
+ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:7084
+ho 0 tail 12 room 4
+load:0x40078000,len:15584
+load:0x40080400,len:4
+load:0x40080404,len:3876
+entry 0x4008064c
+[0;32mI (31) boot: ESP-IDF v5.1.1-dirty 2nd stage bootloader[0m
+[0;32mI (31) boot: compile time Nov 29 2023 14:55:05[0m
+[0;32mI (31) boot: Multicore bootloader[0m
+[0;32mI (36) boot: chip revision: v3.1[0m
+[0;32mI (40) boot.esp32: SPI Speed      : 40MHz[0m
+[0;32mI (44) boot.esp32: SPI Mode       : DIO[0m
+[0;32mI (49) boot.esp32: SPI Flash Size : 4MB[0m
+[0;32mI (53) boot: Enabling RNG early entropy source...[0m
+[0;32mI (59) boot: Partition Table:[0m
+[0;32mI (62) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (70) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (77) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (85) boot:  2 factory          factory app      00 00 00010000 00177000[0m
+[0;32mI (92) boot: End of partition table[0m
+[0;32mI (96) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=6d798h (448408) map[0m
+[0;32mI (267) esp_image: segment 1: paddr=0007d7c0 vaddr=3ffb0000 size=02858h ( 10328) load[0m
+[0;32mI (271) esp_image: segment 2: paddr=00080020 vaddr=400d0020 size=907e0h (591840) map[0m
+[0;32mI (486) esp_image: segment 3: paddr=00110808 vaddr=3ffb2858 size=00ed8h (  3800) load[0m
+[0;32mI (488) esp_image: segment 4: paddr=001116e8 vaddr=40080000 size=15aech ( 88812) load[0m
+[0;32mI (540) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (540) boot: Disabling RNG early entropy source...[0m
+[0;32mI (551) cpu_start: Multicore app[0m
+[0;32mI (552) cpu_start: Pro cpu up.[0m
+[0;32mI (552) cpu_start: Starting app cpu, entry point is 0x40081398[0m
+[0;32mI (0) cpu_start: App cpu up.[0m
+[0;32mI (569) cpu_start: Pro cpu start user code[0m
+[0;32mI (570) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (570) cpu_start: Application information:[0m
+[0;32mI (574) cpu_start: Project name:     General_code[0m
+[0;32mI (580) cpu_start: App version:      1[0m
+[0;32mI (584) cpu_start: Compile time:     Nov 29 2023 14:54:16[0m
+[0;32mI (590) cpu_start: ELF file SHA256:  7cc4f6008deabc45...[0m
+[0;32mI (596) cpu_start: ESP-IDF:          v5.1.1-dirty[0m
+[0;32mI (602) cpu_start: Min chip rev:     v0.0[0m
+[0;32mI (606) cpu_start: Max chip rev:     v3.99 [0m
+[0;32mI (611) cpu_start: Chip rev:         v3.1[0m
+[0;32mI (616) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (623) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM[0m
+[0;32mI (629) heap_init: At 3FFB78E8 len 00028718 (161 KiB): DRAM[0m
+[0;32mI (635) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (642) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (648) heap_init: At 40095AEC len 0000A514 (41 KiB): IRAM[0m
+[0;32mI (656) spi_flash: detected chip: generic[0m
+[0;32mI (659) spi_flash: flash io: dio[0m
+[0;33mW (663) ADC: legacy driver is deprecated, please migrate to `esp_adc/adc_oneshot.h`[0m
+[0;32mI (672) app_start: Starting scheduler on CPU0[0m
+[0;32mI (676) app_start: Starting scheduler on CPU1[0m
+[0;32mI (676) main_task: Started on CPU0[0m
+[0;32mI (686) main_task: Calling app_main()[0m
+[0;32mI (686) ADC: ADC configured[0m
+[0;32mI (686) Task: Tasks created[0m
+[0;32mI (696) gpio: GPIO[18]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:2 [0m
+[0;32mI (696) gpio: GPIO[19]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:2 [0m
+[0;32mI (706) BUTTON_COUNT: Button 1 pressed: 1074625348 times[0m
+[0;32mI (716) BUTTON_COUNT: Button 2 pressed: 1074625364 times[0m
+[0;32mI (756) wifi_app: STARTING WIFI APPLICATION[0m
+[0;32mI (756) gpio: GPIO[26]| InputEn: 0| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0 [0m
+[0;32mI (756) gpio: GPIO[25]| InputEn: 0| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0 [0m
+[0;32mI (766) gpio: GPIO[33]| InputEn: 0| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0 [0m
+[0;32mI (1076) main_task: Returned from app_main()[0m
+[0;32mI (1106) wifi_init: rx ba win: 6[0m
+[0;32mI (1106) wifi_init: tcpip mbox: 32[0m
+[0;32mI (1106) wifi_init: udp mbox: 6[0m
+[0;32mI (1106) wifi_init: tcp mbox: 6[0m
+[0;32mI (1106) wifi_init: tcp tx win: 5744[0m
+[0;32mI (1106) wifi_init: tcp rx win: 5744[0m
+[0;32mI (1116) wifi_init: tcp mss: 1440[0m
+[0;32mI (1116) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (1126) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (2386) phy_init: phy_version 4670,719f9f6,Feb 18 2021,17:07:07[0m
+[0;32mI (2506) wifi_app: WIFI_EVENT_STA_START[0m
+[0;32mI (2506) wifi_app: WIFI_APP_MSG_START_HTTP_SERVER[0m
+[0;32mI (2506) http_server: http_server_configure: Starting server on port: '80' with task priority: '4'[0m
+[0;32mI (2506) wifi_app: WIFI_EVENT_AP_START[0m
+[0;32mI (2526) esp_netif_lwip: DHCP server started on interface WIFI_AP_DEF with IP: 192.168.0.1[0m
+[0;32mI (2536) http_server: http_server_configure: Registering URI handlers[0m
+[0;32mI (4396) wifi_app: WIFI_EVENT_AP_STACONNECTED[0m
+[0;32mI (4416) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.0.2[0m
+[0;32mI (7336) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.0.2[0m
+[0;32mI (9626) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.0.2[0m
+[0;32mI (10316) http_server: Actual temperature: 28.055531 °C[0m
+[0;32mI (12286) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.0.2[0m
+[0;32mI (12336) http_server: Actual temperature: 27.983282 °C[0m
+[0;32mI (14336) http_server: index.html requested[0m
+[0;32mI (14366) http_server: Jquery requested[0m
+[0;32mI (14546) http_server: app.css requested[0m
+[0;32mI (14566) http_server: app.js requested[0m
+[0;32mI (14646) http_server: favicon.ico requested[0m
+[0;32mI (17066) http_server: Actual temperature: 28.051264 °C[0m
+[0;32mI (20276) http_server: /setRGB.json requested[0m
+[0;32mI (20276) http_server: value_RED: 1[0m
+[0;32mI (20276) http_server: value_GREEN: 0[0m
+[0;32mI (20276) http_server: value_BLUE: 0[0m
+[0;32mI (20296) http_server: /setRGB.json requested[0m
+[0;32mI (20306) http_server: value_RED: 2[0m
+[0;32mI (20306) http_server: value_GREEN: 0[0m
+[0;32mI (20306) http_server: value_BLUE: 0[0m
+[0;32mI (20366) http_server: /setRGB.json requested[0m
+[0;32mI (20366) http_server: value_RED: 7[0m
+[0;32mI (20376) http_server: value_GREEN: 0[0m
+[0;32mI (20376) http_server: value_BLUE: 0[0m
+[0;32mI (20386) http_server: /setRGB.json requested[0m
+[0;32mI (20386) http_server: value_RED: 3[0m
+[0;32mI (20386) http_server: value_GREEN: 0[0m
+[0;32mI (20386) http_server: value_BLUE: 0[0m
+[0;32mI (20406) http_server: /setRGB.json requested[0m
+[0;32mI (20406) http_server: value_RED: 5[0m
+[0;32mI (20406) http_server: value_GREEN: 0[0m
+[0;32mI (20406) http_server: value_BLUE: 0[0m
+[0;32mI (20426) http_server: /setRGB.json requested[0m
+[0;32mI (20426) http_server: value_RED: 6[0m
+[0;32mI (20426) http_server: value_GREEN: 0[0m
+[0;32mI (20426) http_server: value_BLUE: 0[0m
+[0;32mI (20436) http_server: /setRGB.json requested[0m
+[0;32mI (20446) http_server: value_RED: 9[0m
+[0;32mI (20446) http_server: value_GREEN: 0[0m
+[0;32mI (20446) http_server: value_BLUE: 0[0m
+[0;32mI (20456) http_server: /setRGB.json requested[0m
+[0;32mI (20456) http_server: value_RED: 8[0m
+[0;32mI (20456) http_server: value_GREEN: 0[0m
+[0;32mI (20456) http_server: value_BLUE: 0[0m
+[0;32mI (20476) http_server: /setRGB.json requested[0m
+[0;32mI (20476) http_server: value_RED: 10[0m
+[0;32mI (20476) http_server: value_GREEN: 0[0m
+[0;32mI (20476) http_server: value_BLUE: 0[0m
+[0;32mI (20486) http_server: /setRGB.json requested[0m
+[0;32mI (20496) http_server: value_RED: 11[0m
+[0;32mI (20496) http_server: value_GREEN: 0[0m
+[0;32mI (20496) http_server: value_BLUE: 0[0m
+[0;32mI (20506) http_server: /setRGB.json requested[0m
+[0;32mI (20516) http_server: value_RED: 12[0m
+[0;32mI (20516) http_server: value_GREEN: 0[0m
+[0;32mI (20516) http_server: value_BLUE: 0[0m
+[0;32mI (20536) http_server: /setRGB.json requested[0m
+[0;32mI (20536) http_server: value_RED: 14[0m
+[0;32mI (20536) http_server: value_GREEN: 0[0m
+[0;32mI (20536) http_server: value_BLUE: 0[0m
+[0;32mI (20546) http_server: /setRGB.json requested[0m
+[0;32mI (20556) http_server: value_RED: 17[0m
+[0;32mI (20556) http_server: value_GREEN: 0[0m
+[0;32mI (20556) http_server: value_BLUE: 0[0m
+[0;32mI (20566) http_server: /setRGB.json requested[0m
+[0;32mI (20566) http_server: value_RED: 15[0m
+[0;32mI (20566) http_server: value_GREEN: 0[0m
+[0;32mI (20576) http_server: value_BLUE: 0[0m
+[0;32mI (20586) http_server: /setRGB.json requested[0m
+[0;32mI (20586) http_server: value_RED: 18[0m
+[0;32mI (20586) http_server: value_GREEN: 0[0m
+[0;32mI (20586) http_server: value_BLUE: 0[0m
+[0;32mI (20606) http_server: /setRGB.json requested[0m
+[0;32mI (20606) http_server: value_RED: 19[0m
+[0;32mI (20606) http_server: value_GREEN: 0[0m
+[0;32mI (20606) http_server: value_BLUE: 0[0m
+[0;32mI (20626) http_server: /setRGB.json requested[0m
+[0;32mI (20626) http_server: value_RED: 22[0m
+[0;32mI (20626) http_server: value_GREEN: 0[0m
+[0;32mI (20626) http_server: value_BLUE: 0[0m
+[0;32mI (20636) http_server: /setRGB.json requested[0m
+[0;32mI (20646) http_server: value_RED: 20[0m
+[0;32mI (20646) http_server: value_GREEN: 0[0m
+[0;32mI (20646) http_server: value_BLUE: 0[0m
+[0;32mI (20656) http_server: /setRGB.json requested[0m
+[0;32mI (20666) http_server: value_RED: 26[0m
+[0;32mI (20666) http_server: value_GREEN: 0[0m
+[0;32mI (20666) http_server: value_BLUE: 0[0m
+[0;32mI (20676) http_server: /setRGB.json requested[0m
+[0;32mI (20676) http_server: value_RED: 23[0m
+[0;32mI (20676) http_server: value_GREEN: 0[0m
+[0;32mI (20686) http_server: value_BLUE: 0[0m
+[0;32mI (20696) http_server: /setRGB.json requested[0m
+[0;32mI (20696) http_server: value_RED: 24[0m
+[0;32mI (20696) http_server: value_GREEN: 0[0m
+[0;32mI (20706) http_server: value_BLUE: 0[0m
+[0;32mI (20716) http_server: /setRGB.json requested[0m
+[0;32mI (20716) http_server: value_RED: 30[0m
+[0;32mI (20716) http_server: value_GREEN: 0[0m
+[0;32mI (20716) http_server: value_BLUE: 0[0m
+[0;32mI (20726) http_server: /setRGB.json requested[0m
+[0;32mI (20736) http_server: value_RED: 28[0m
+[0;32mI (20736) http_server: value_GREEN: 0[0m
+[0;32mI (20736) http_server: value_BLUE: 0[0m
+[0;32mI (20746) http_server: /setRGB.json requested[0m
+[0;32mI (20746) http_server: value_RED: 31[0m
+[0;32mI (20756) http_server: value_GREEN: 0[0m
+[0;32mI (20756) http_server: value_BLUE: 0[0m
+[0;32mI (20766) http_server: /setRGB.json requested[0m
+[0;32mI (20766) http_server: value_RED: 32[0m
+[0;32mI (20766) http_server: value_GREEN: 0[0m
+[0;32mI (20776) http_server: value_BLUE: 0[0m
+[0;32mI (20786) http_server: /setRGB.json requested[0m
+[0;32mI (20786) http_server: value_RED: 35[0m
+[0;32mI (20786) http_server: value_GREEN: 0[0m
+[0;32mI (20796) http_server: value_BLUE: 0[0m
+[0;32mI (20806) http_server: /setRGB.json requested[0m
+[0;32mI (20806) http_server: value_RED: 38[0m
+[0;32mI (20806) http_server: value_GREEN: 0[0m
+[0;32mI (20816) http_server: value_BLUE: 0[0m
+[0;32mI (20826) http_server: /setRGB.json requested[0m
+[0;32mI (20826) http_server: value_RED: 40[0m
+[0;32mI (20826) http_server: value_GREEN: 0[0m
+[0;32mI (20826) http_server: value_BLUE: 0[0m
+[0;32mI (20836) http_server: /setRGB.json requested[0m
+[0;32mI (20846) http_server: value_RED: 37[0m
+[0;32mI (20846) http_server: value_GREEN: 0[0m
+[0;32mI (20846) http_server: value_BLUE: 0[0m
+[0;32mI (20866) http_server: /setRGB.json requested[0m
+[0;32mI (20866) http_server: value_RED: 43[0m
+[0;32mI (20866) http_server: value_GREEN: 0[0m
+[0;32mI (20866) http_server: value_BLUE: 0[0m
+[0;32mI (20876) http_server: /setRGB.json requested[0m
+[0;32mI (20886) http_server: value_RED: 42[0m
+[0;32mI (20886) http_server: value_GREEN: 0[0m
+[0;32mI (20886) http_server: value_BLUE: 0[0m
+[0;32mI (20896) http_server: /setRGB.json requested[0m
+[0;32mI (20896) http_server: value_RED: 46[0m
+[0;32mI (20896) http_server: value_GREEN: 0[0m
+[0;32mI (20906) http_server: value_BLUE: 0[0m
+[0;32mI (20916) http_server: /setRGB.json requested[0m
+[0;32mI (20916) http_server: value_RED: 45[0m
+[0;32mI (20916) http_server: value_GREEN: 0[0m
+[0;32mI (20916) http_server: value_BLUE: 0[0m
+[0;32mI (20936) http_server: /setRGB.json requested[0m
+[0;32mI (20936) http_server: value_RED: 50[0m
+[0;32mI (20936) http_server: value_GREEN: 0[0m
+[0;32mI (20936) http_server: value_BLUE: 0[0m
+[0;32mI (20956) http_server: /setRGB.json requested[0m
+[0;32mI (20956) http_server: value_RED: 48[0m
+[0;32mI (20956) http_server: value_GREEN: 0[0m
+[0;32mI (20956) http_server: value_BLUE: 0[0m
+[0;32mI (20976) http_server: /setRGB.json requested[0m
+[0;32mI (20976) http_server: value_RED: 52[0m
+[0;32mI (20976) http_server: value_GREEN: 0[0m
+[0;32mI (20976) http_server: value_BLUE: 0[0m
+[0;32mI (20986) http_server: /setRGB.json requested[0m
+[0;32mI (20996) http_server: value_RED: 56[0m
+[0;32mI (20996) http_server: value_GREEN: 0[0m
+[0;32mI (20996) http_server: value_BLUE: 0[0m
+[0;32mI (21006) http_server: /setRGB.json requested[0m
+[0;32mI (21006) http_server: value_RED: 54[0m
+[0;32mI (21006) http_server: value_GREEN: 0[0m
+[0;32mI (21016) http_server: value_BLUE: 0[0m
+[0;32mI (21026) http_server: /setRGB.json requested[0m
+[0;32mI (21026) http_server: value_RED: 61[0m
+[0;32mI (21026) http_server: value_GREEN: 0[0m
+[0;32mI (21026) http_server: value_BLUE: 0[0m
+[0;32mI (21046) http_server: /setRGB.json requested[0m
+[0;32mI (21046) http_server: value_RED: 59[0m
+[0;32mI (21046) http_server: value_GREEN: 0[0m
+[0;32mI (21046) http_server: value_BLUE: 0[0m
+[0;32mI (21066) http_server: /setRGB.json requested[0m
+[0;32mI (21066) http_server: value_RED: 65[0m
+[0;32mI (21066) http_server: value_GREEN: 0[0m
+[0;32mI (21066) http_server: value_BLUE: 0[0m
+[0;32mI (21076) http_server: /setRGB.json requested[0m
+[0;32mI (21086) http_server: value_RED: 64[0m
+[0;32mI (21086) http_server: value_GREEN: 0[0m
+[0;32mI (21086) http_server: value_BLUE: 0[0m
+[0;32mI (21096) http_server: /setRGB.json requested[0m
+[0;32mI (21096) http_server: value_RED: 67[0m
+[0;32mI (21106) http_server: value_GREEN: 0[0m
+[0;32mI (21106) http_server: value_BLUE: 0[0m
+[0;32mI (21126) http_server: /setRGB.json requested[0m
+[0;32mI (21126) http_server: value_RED: 68[0m
+[0;32mI (21126) http_server: value_GREEN: 0[0m
+[0;32mI (21126) http_server: value_BLUE: 0[0m
+[0;32mI (21146) http_server: /setRGB.json requested[0m
+[0;32mI (21146) http_server: value_RED: 71[0m
+[0;32mI (21146) http_server: value_GREEN: 0[0m
+[0;32mI (21146) http_server: value_BLUE: 0[0m
+[0;32mI (21156) http_server: /setRGB.json requested[0m
+[0;32mI (21156) http_server: value_RED: 70[0m
+[0;32mI (21156) http_server: value_GREEN: 0[0m
+[0;32mI (21166) http_server: value_BLUE: 0[0m
+[0;32mI (21176) http_server: /setRGB.json requested[0m
+[0;32mI (21186) http_server: value_RED: 73[0m
+[0;32mI (21186) http_server: value_GREEN: 0[0m
+[0;32mI (21186) http_server: value_BLUE: 0[0m
+[0;32mI (21196) http_server: /setRGB.json requested[0m
+[0;32mI (21196) http_server: value_RED: 72[0m
+[0;32mI (21196) http_server: value_GREEN: 0[0m
+[0;32mI (21206) http_server: value_BLUE: 0[0m
+[0;32mI (21216) http_server: /setRGB.json requested[0m
+[0;32mI (21216) http_server: value_RED: 74[0m
+[0;32mI (21216) http_server: value_GREEN: 0[0m
+[0;32mI (21226) http_server: value_BLUE: 0[0m
+[0;32mI (21236) http_server: /setRGB.json requested[0m
+[0;32mI (21236) http_server: value_RED: 75[0m
+[0;32mI (21236) http_server: value_GREEN: 0[0m
+[0;32mI (21236) http_server: value_BLUE: 0[0m
+[0;32mI (21256) http_server: /setRGB.json requested[0m
+[0;32mI (21256) http_server: value_RED: 76[0m
+[0;32mI (21256) http_server: value_GREEN: 0[0m
+[0;32mI (21256) http_server: value_BLUE: 0[0m
+[0;32mI (21266) http_server: /setRGB.json requested[0m
+[0;32mI (21276) http_server: value_RED: 78[0m
+[0;32mI (21276) http_server: value_GREEN: 0[0m
+[0;32mI (21276) http_server: value_BLUE: 0[0m
+[0;32mI (21286) http_server: /setRGB.json requested[0m
+[0;32mI (21296) http_server: value_RED: 77[0m
+[0;32mI (21296) http_server: value_GREEN: 0[0m
+[0;32mI (21296) http_server: value_BLUE: 0[0m
+[0;32mI (21306) http_server: /setRGB.json requested[0m
+[0;32mI (21306) http_server: value_RED: 80[0m
+[0;32mI (21306) http_server: value_GREEN: 0[0m
+[0;32mI (21316) http_server: value_BLUE: 0[0m
+[0;32mI (21326) http_server: /setRGB.json requested[0m
+[0;32mI (21326) http_server: value_RED: 79[0m
+[0;32mI (21326) http_server: value_GREEN: 0[0m
+[0;32mI (21336) http_server: value_BLUE: 0[0m
+[0;32mI (21346) http_server: /setRGB.json requested[0m
+[0;32mI (21346) http_server: value_RED: 82[0m
+[0;32mI (21346) http_server: value_GREEN: 0[0m
+[0;32mI (21356) http_server: value_BLUE: 0[0m
+[0;32mI (21366) http_server: /setRGB.json requested[0m
+[0;32mI (21366) http_server: value_RED: 81[0m
+[0;32mI (21366) http_server: value_GREEN: 0[0m
+[0;32mI (21366) http_server: value_BLUE: 0[0m
+[0;32mI (21386) http_server: /setRGB.json requested[0m
+[0;32mI (21386) http_server: value_RED: 83[0m
+[0;32mI (21386) http_server: value_GREEN: 0[0m
+[0;32mI (21386) http_server: value_BLUE: 0[0m
+[0;32mI (21396) http_server: /setRGB.json requested[0m
+[0;32mI (21406) http_server: value_RED: 84[0m
+[0;32mI (21406) http_server: value_GREEN: 0[0m
+[0;32mI (21406) http_server: value_BLUE: 0[0m
+[0;32mI (21416) http_server: /setRGB.json requested[0m
+[0;32mI (21416) http_server: value_RED: 85[0m
+[0;32mI (21416) http_server: value_GREEN: 0[0m
+[0;32mI (21426) http_server: value_BLUE: 0[0m
+[0;32mI (21436) http_server: /setRGB.json requested[0m
+[0;32mI (21436) http_server: value_RED: 85[0m
+[0;32mI (21436) http_server: value_GREEN: 0[0m
+[0;32mI (21446) http_server: value_BLUE: 0[0m
+[0;32mI (24126) http_server: /setRGB.json requested[0m
+[0;32mI (24126) http_server: value_RED: 86[0m
+[0;32mI (24126) http_server: value_GREEN: 0[0m
+[0;32mI (24126) http_server: value_BLUE: 0[0m
+[0;32mI (24196) http_server: /setRGB.json requested[0m
+[0;32mI (24196) http_server: value_RED: 87[0m
+[0;32mI (24196) http_server: value_GREEN: 0[0m
+[0;32mI (24196) http_server: value_BLUE: 0[0m
+[0;32mI (24236) http_server: /setRGB.json requested[0m
+[0;32mI (24236) http_server: value_RED: 88[0m
+[0;32mI (24246) http_server: value_GREEN: 0[0m
+[0;32mI (24246) http_server: value_BLUE: 0[0m
+[0;32mI (24276) http_server: /setRGB.json requested[0m
+[0;32mI (24286) http_server: value_RED: 89[0m
+[0;32mI (24286) http_server: value_GREEN: 0[0m
+[0;32mI (24286) http_server: value_BLUE: 0[0m
+[0;32mI (24306) http_server: /setRGB.json requested[0m
+[0;32mI (24306) http_server: value_RED: 90[0m
+[0;32mI (24306) http_server: value_GREEN: 0[0m
+[0;32mI (24306) http_server: value_BLUE: 0[0m
+[0;32mI (24346) http_server: /setRGB.json requested[0m
+[0;32mI (24346) http_server: value_RED: 91[0m
+[0;32mI (24346) http_server: value_GREEN: 0[0m
+[0;32mI (24346) http_server: value_BLUE: 0[0m
+[0;32mI (24366) http_server: /setRGB.json requested[0m
+[0;32mI (24366) http_server: value_RED: 92[0m
+[0;32mI (24366) http_server: value_GREEN: 0[0m
+[0;32mI (24366) http_server: value_BLUE: 0[0m
+[0;32mI (24376) http_server: /setRGB.json requested[0m
+[0;32mI (24376) http_server: value_RED: 93[0m
+[0;32mI (24376) http_server: value_GREEN: 0[0m
+[0;32mI (24386) http_server: value_BLUE: 0[0m
+[0;32mI (24396) http_server: /setRGB.json requested[0m
+[0;32mI (24396) http_server: value_RED: 95[0m
+[0;32mI (24396) http_server: value_GREEN: 0[0m
+[0;32mI (24406) http_server: value_BLUE: 0[0m
+[0;32mI (24416) http_server: /setRGB.json requested[0m
+[0;32mI (24416) http_server: value_RED: 94[0m
+[0;32mI (24416) http_server: value_GREEN: 0[0m
+[0;32mI (24416) http_server: value_BLUE: 0[0m
+[0;32mI (24436) http_server: /setRGB.json requested[0m
+[0;32mI (24436) http_server: value_RED: 96[0m
+[0;32mI (24436) http_server: value_GREEN: 0[0m
+[0;32mI (24436) http_server: value_BLUE: 0[0m
+[0;32mI (24446) http_server: /setRGB.json requested[0m
+[0;32mI (24456) http_server: value_RED: 97[0m
+[0;32mI (24456) http_server: value_GREEN: 0[0m
+[0;32mI (24456) http_server: value_BLUE: 0[0m
+[0;32mI (24466) http_server: /setRGB.json requested[0m
+[0;32mI (24466) http_server: value_RED: 98[0m
+[0;32mI (24466) http_server: value_GREEN: 0[0m
+[0;32mI (24476) http_server: value_BLUE: 0[0m
+[0;32mI (24486) http_server: /setRGB.json requested[0m
+[0;32mI (24486) http_server: value_RED: 99[0m
+[0;32mI (24486) http_server: value_GREEN: 0[0m
+[0;32mI (24496) http_server: value_BLUE: 0[0m
+[0;32mI (24976) http_server: /setRGB.json requested[0m
+[0;32mI (24976) http_server: value_RED: 98[0m
+[0;32mI (24976) http_server: value_GREEN: 0[0m
+[0;32mI (24976) http_server: value_BLUE: 0[0m
+[0;32mI (24986) http_server: /setRGB.json requested[0m
+[0;32mI (24986) http_server: value_RED: 97[0m
+[0;32mI (24986) http_server: value_GREEN: 0[0m
+[0;32mI (24996) http_server: value_BLUE: 0[0m
+[0;32mI (25006) http_server: /setRGB.json requested[0m
+[0;32mI (25016) http_server: value_RED: 95[0m
+[0;32mI (25016) http_server: value_GREEN: 0[0m
+[0;32mI (25016) http_server: value_BLUE: 0[0m
+[0;32mI (25026) http_server: /setRGB.json requested[0m
+[0;32mI (25026) http_server: value_RED: 96[0m
+[0;32mI (25026) http_server: value_GREEN: 0[0m
+[0;32mI (25036) http_server: value_BLUE: 0[0m
+[0;32mI (25046) http_server: /setRGB.json requested[0m
+[0;32mI (25046) http_server: value_RED: 92[0m
+[0;32mI (25046) http_server: value_GREEN: 0[0m
+[0;32mI (25056) http_server: value_BLUE: 0[0m
+[0;32mI (25066) http_server: /setRGB.json requested[0m
+[0;32mI (25066) http_server: value_RED: 93[0m
+[0;32mI (25066) http_server: value_GREEN: 0[0m
+[0;32mI (25066) http_server: value_BLUE: 0[0m
+[0;32mI (25086) http_server: /setRGB.json requested[0m
+[0;32mI (25086) http_server: value_RED: 90[0m
+[0;32mI (25086) http_server: value_GREEN: 0[0m
+[0;32mI (25086) http_server: value_BLUE: 0[0m
+[0;32mI (25096) http_server: /setRGB.json requested[0m
+[0;32mI (25106) http_server: value_RED: 88[0m
+[0;32mI (25106) http_server: value_GREEN: 0[0m
+[0;32mI (25106) http_server: value_BLUE: 0[0m
+[0;32mI (25116) http_server: /setRGB.json requested[0m
+[0;32mI (25116) http_server: value_RED: 87[0m
+[0;32mI (25116) http_server: value_GREEN: 0[0m
+[0;32mI (25126) http_server: value_BLUE: 0[0m
+[0;32mI (25136) http_server: /setRGB.json requested[0m
+[0;32mI (25136) http_server: value_RED: 89[0m
+[0;32mI (25136) http_server: value_GREEN: 0[0m
+[0;32mI (25146) http_server: value_BLUE: 0[0m
+[0;32mI (25156) http_server: /setRGB.json requested[0m
+[0;32mI (25156) http_server: value_RED: 86[0m
+[0;32mI (25156) http_server: value_GREEN: 0[0m
+[0;32mI (25166) http_server: value_BLUE: 0[0m
+[0;32mI (25176) http_server: /setRGB.json requested[0m
+[0;32mI (25176) http_server: value_RED: 85[0m
+[0;32mI (25176) http_server: value_GREEN: 0[0m
+[0;32mI (25176) http_server: value_BLUE: 0[0m
+[0;32mI (25196) http_server: /setRGB.json requested[0m
+[0;32mI (25196) http_server: value_RED: 83[0m
+[0;32mI (25196) http_server: value_GREEN: 0[0m
+[0;32mI (25196) http_server: value_BLUE: 0[0m
+[0;32mI (25206) http_server: /setRGB.json requested[0m
+[0;32mI (25206) http_server: value_RED: 84[0m
+[0;32mI (25206) http_server: value_GREEN: 0[0m
+[0;32mI (25216) http_server: value_BLUE: 0[0m
+[0;32mI (25226) http_server: /setRGB.json requested[0m
+[0;32mI (25226) http_server: value_RED: 82[0m
+[0;32mI (25226) http_server: value_GREEN: 0[0m
+[0;32mI (25236) http_server: value_BLUE: 0[0m
+[0;32mI (25246) http_server: /setRGB.json requested[0m
+[0;32mI (25246) http_server: value_RED: 81[0m
+[0;32mI (25246) http_server: value_GREEN: 0[0m
+[0;32mI (25246) http_server: value_BLUE: 0[0m
+[0;32mI (25266) http_server: /setRGB.json requested[0m
+[0;32mI (25266) http_server: value_RED: 80[0m
+[0;32mI (25266) http_server: value_GREEN: 0[0m
+[0;32mI (25266) http_server: value_BLUE: 0[0m
+[0;32mI (25286) http_server: /setRGB.json requested[0m
+[0;32mI (25286) http_server: value_RED: 79[0m
+[0;32mI (25286) http_server: value_GREEN: 0[0m
+[0;32mI (25286) http_server: value_BLUE: 0[0m
+[0;32mI (25306) http_server: /setRGB.json requested[0m
+[0;32mI (25306) http_server: value_RED: 78[0m
+[0;32mI (25306) http_server: value_GREEN: 0[0m
+[0;32mI (25306) http_server: value_BLUE: 0[0m
+[0;32mI (25326) http_server: /setRGB.json requested[0m
+[0;32mI (25326) http_server: value_RED: 76[0m
+[0;32mI (25326) http_server: value_GREEN: 0[0m
+[0;32mI (25326) http_server: value_BLUE: 0[0m
+[0;32mI (25336) http_server: /setRGB.json requested[0m
+[0;32mI (25336) http_server: value_RED: 77[0m
+[0;32mI (25336) http_server: value_GREEN: 0[0m
+[0;32mI (25346) http_server: value_BLUE: 0[0m
+[0;32mI (25356) http_server: /setRGB.json requested[0m
+[0;32mI (25366) http_server: value_RED: 74[0m
+[0;32mI (25366) http_server: value_GREEN: 0[0m
+[0;32mI (25366) http_server: value_BLUE: 0[0m
+[0;32mI (25376) http_server: /setRGB.json requested[0m
+[0;32mI (25376) http_server: value_RED: 75[0m
+[0;32mI (25376) http_server: value_GREEN: 0[0m
+[0;32mI (25386) http_server: value_BLUE: 0[0m
+[0;32mI (25396) http_server: /setRGB.json requested[0m
+[0;32mI (25396) http_server: value_RED: 72[0m
+[0;32mI (25396) http_server: value_GREEN: 0[0m
+[0;32mI (25396) http_server: value_BLUE: 0[0m
+[0;32mI (25406) http_server: /setRGB.json requested[0m
+[0;32mI (25416) http_server: value_RED: 71[0m
+[0;32mI (25416) http_server: value_GREEN: 0[0m
+[0;32mI (25416) http_server: value_BLUE: 0[0m
+[0;32mI (25426) http_server: /setRGB.json requested[0m
+[0;32mI (25426) http_server: value_RED: 73[0m
+[0;32mI (25436) http_server: value_GREEN: 0[0m
+[0;32mI (25436) http_server: value_BLUE: 0[0m
+[0;32mI (25456) http_server: /setRGB.json requested[0m
+[0;32mI (25456) http_server: value_RED: 69[0m
+[0;32mI (25456) http_server: value_GREEN: 0[0m
+[0;32mI (25456) http_server: value_BLUE: 0[0m
+[0;32mI (25466) http_server: /setRGB.json requested[0m
+[0;32mI (25476) http_server: value_RED: 70[0m
+[0;32mI (25476) http_server: value_GREEN: 0[0m
+[0;32mI (25476) http_server: value_BLUE: 0[0m
+[0;32mI (25486) http_server: /setRGB.json requested[0m
+[0;32mI (25486) http_server: value_RED: 67[0m
+[0;32mI (25486) http_server: value_GREEN: 0[0m
+[0;32mI (25496) http_server: value_BLUE: 0[0m
+[0;32mI (25506) http_server: /setRGB.json requested[0m
+[0;32mI (25506) http_server: value_RED: 68[0m
+[0;32mI (25506) http_server: value_GREEN: 0[0m
+[0;32mI (25506) http_server: value_BLUE: 0[0m
+[0;32mI (25526) http_server: /setRGB.json requested[0m
+[0;32mI (25526) http_server: value_RED: 66[0m
+[0;32mI (25526) http_server: value_GREEN: 0[0m
+[0;32mI (25526) http_server: value_BLUE: 0[0m
+[0;32mI (25546) http_server: /setRGB.json requested[0m
+[0;32mI (25546) http_server: value_RED: 65[0m
+[0;32mI (25546) http_server: value_GREEN: 0[0m
+[0;32mI (25546) http_server: value_BLUE: 0[0m
+[0;32mI (25566) http_server: /setRGB.json requested[0m
+[0;32mI (25566) http_server: value_RED: 64[0m
+[0;32mI (25566) http_server: value_GREEN: 0[0m
+[0;32mI (25566) http_server: value_BLUE: 0[0m
+[0;32mI (25576) http_server: /setRGB.json requested[0m
+[0;32mI (25576) http_server: value_RED: 61[0m
+[0;32mI (25586) http_server: value_GREEN: 0[0m
+[0;32mI (25586) http_server: value_BLUE: 0[0m
+[0;32mI (25596) http_server: /setRGB.json requested[0m
+[0;32mI (25596) http_server: value_RED: 62[0m
+[0;32mI (25596) http_server: value_GREEN: 0[0m
+[0;32mI (25606) http_server: value_BLUE: 0[0m
+[0;32mI (25616) http_server: /setRGB.json requested[0m
+[0;32mI (25616) http_server: value_RED: 58[0m
+[0;32mI (25616) http_server: value_GREEN: 0[0m
+[0;32mI (25626) http_server: value_BLUE: 0[0m
+[0;32mI (25636) http_server: /setRGB.json requested[0m
+[0;32mI (25636) http_server: value_RED: 60[0m
+[0;32mI (25636) http_server: value_GREEN: 0[0m
+[0;32mI (25646) http_server: value_BLUE: 0[0m
+[0;32mI (25656) http_server: /setRGB.json requested[0m
+[0;32mI (25656) http_server: value_RED: 56[0m
+[0;32mI (25656) http_server: value_GREEN: 0[0m
+[0;32mI (25666) http_server: value_BLUE: 0[0m
+[0;32mI (25676) http_server: /setRGB.json requested[0m
+[0;32mI (25676) http_server: value_RED: 54[0m
+[0;32mI (25676) http_server: value_GREEN: 0[0m
+[0;32mI (25676) http_server: value_BLUE: 0[0m
+[0;32mI (25696) http_server: /setRGB.json requested[0m
+[0;32mI (25696) http_server: value_RED: 57[0m
+[0;32mI (25696) http_server: value_GREEN: 0[0m
+[0;32mI (25696) http_server: value_BLUE: 0[0m
+[0;32mI (25706) http_server: /setRGB.json requested[0m
+[0;32mI (25716) http_server: value_RED: 51[0m
+[0;32mI (25716) http_server: value_GREEN: 0[0m
+[0;32mI (25716) http_server: value_BLUE: 0[0m
+[0;32mI (25726) http_server: /setRGB.json requested[0m
+[0;32mI (25736) http_server: value_RED: 53[0m
+[0;32mI (25736) http_server: value_GREEN: 0[0m
+[0;32mI (25736) http_server: value_BLUE: 0[0m
+[0;32mI (25746) http_server: /setRGB.json requested[0m
+[0;32mI (25746) http_server: value_RED: 49[0m
+[0;32mI (25746) http_server: value_GREEN: 0[0m
+[0;32mI (25746) http_server: value_BLUE: 0[0m
+[0;32mI (25766) http_server: /setRGB.json requested[0m
+[0;32mI (25766) http_server: value_RED: 48[0m
+[0;32mI (25766) http_server: value_GREEN: 0[0m
+[0;32mI (25766) http_server: value_BLUE: 0[0m
+[0;32mI (25786) http_server: /setRGB.json requested[0m
+[0;32mI (25786) http_server: value_RED: 50[0m
+[0;32mI (25786) http_server: value_GREEN: 0[0m
+[0;32mI (25786) http_server: value_BLUE: 0[0m
+[0;32mI (25806) http_server: /setRGB.json requested[0m
+[0;32mI (25806) http_server: value_RED: 45[0m
+[0;32mI (25806) http_server: value_GREEN: 0[0m
+[0;32mI (25806) http_server: value_BLUE: 0[0m
+[0;32mI (25816) http_server: /setRGB.json requested[0m
+[0;32mI (25826) http_server: value_RED: 47[0m
+[0;32mI (25826) http_server: value_GREEN: 0[0m
+[0;32mI (25826) http_server: value_BLUE: 0[0m
+[0;32mI (25836) http_server: /setRGB.json requested[0m
+[0;32mI (25846) http_server: value_RED: 43[0m
+[0;32mI (25846) http_server: value_GREEN: 0[0m
+[0;32mI (25846) http_server: value_BLUE: 0[0m
+[0;32mI (25856) http_server: /setRGB.json requested[0m
+[0;32mI (25856) http_server: value_RED: 44[0m
+[0;32mI (25856) http_server: value_GREEN: 0[0m
+[0;32mI (25866) http_server: value_BLUE: 0[0m
+[0;32mI (25876) http_server: /setRGB.json requested[0m
+[0;32mI (25876) http_server: value_RED: 41[0m
+[0;32mI (25876) http_server: value_GREEN: 0[0m
+[0;32mI (25876) http_server: value_BLUE: 0[0m
+[0;32mI (25896) http_server: /setRGB.json requested[0m
+[0;32mI (25896) http_server: value_RED: 39[0m
+[0;32mI (25896) http_server: value_GREEN: 0[0m
+[0;32mI (25896) http_server: value_BLUE: 0[0m
+[0;32mI (25916) http_server: /setRGB.json requested[0m
+[0;32mI (25916) http_server: value_RED: 40[0m
+[0;32mI (25916) http_server: value_GREEN: 0[0m
+[0;32mI (25916) http_server: value_BLUE: 0[0m
+[0;32mI (25936) http_server: /setRGB.json requested[0m
+[0;32mI (25936) http_server: value_RED: 37[0m
+[0;32mI (25936) http_server: value_GREEN: 0[0m
+[0;32mI (25936) http_server: value_BLUE: 0[0m
+[0;32mI (25946) http_server: /setRGB.json requested[0m
+[0;32mI (25956) http_server: value_RED: 38[0m
+[0;32mI (25956) http_server: value_GREEN: 0[0m
+[0;32mI (25956) http_server: value_BLUE: 0[0m
+[0;32mI (25966) http_server: /setRGB.json requested[0m
+[0;32mI (25976) http_server: value_RED: 35[0m
+[0;32mI (25976) http_server: value_GREEN: 0[0m
+[0;32mI (25976) http_server: value_BLUE: 0[0m
+[0;32mI (25986) http_server: /setRGB.json requested[0m
+[0;32mI (25986) http_server: value_RED: 36[0m
+[0;32mI (25986) http_server: value_GREEN: 0[0m
+[0;32mI (25996) http_server: value_BLUE: 0[0m
+[0;32mI (26006) http_server: /setRGB.json requested[0m
+[0;32mI (26006) http_server: value_RED: 34[0m
+[0;32mI (26006) http_server: value_GREEN: 0[0m
+[0;32mI (26006) http_server: value_BLUE: 0[0m
+[0;32mI (26026) http_server: /setRGB.json requested[0m
+[0;32mI (26026) http_server: value_RED: 33[0m
+[0;32mI (26026) http_server: value_GREEN: 0[0m
+[0;32mI (26026) http_server: value_BLUE: 0[0m
+[0;32mI (26036) http_server: /setRGB.json requested[0m
+[0;32mI (26036) http_server: value_RED: 31[0m
+[0;32mI (26046) http_server: value_GREEN: 0[0m
+[0;32mI (26046) http_server: value_BLUE: 0[0m
+[0;32mI (26056) http_server: /setRGB.json requested[0m
+[0;32mI (26066) http_server: value_RED: 32[0m
+[0;32mI (26066) http_server: value_GREEN: 0[0m
+[0;32mI (26066) http_server: value_BLUE: 0[0m
+[0;32mI (26076) http_server: /setRGB.json requested[0m
+[0;32mI (26076) http_server: value_RED: 30[0m
+[0;32mI (26076) http_server: value_GREEN: 0[0m
+[0;32mI (26086) http_server: value_BLUE: 0[0m
+[0;32mI (26096) http_server: /setRGB.json requested[0m
+[0;32mI (26096) http_server: value_RED: 29[0m
+[0;32mI (26096) http_server: value_GREEN: 0[0m
+[0;32mI (26096) http_server: value_BLUE: 0[0m
+[0;32mI (26116) http_server: /setRGB.json requested[0m
+[0;32mI (26116) http_server: value_RED: 27[0m
+[0;32mI (26116) http_server: value_GREEN: 0[0m
+[0;32mI (26116) http_server: value_BLUE: 0[0m
+[0;32mI (26136) http_server: /setRGB.json requested[0m
+[0;32mI (26136) http_server: value_RED: 28[0m
+[0;32mI (26136) http_server: value_GREEN: 0[0m
+[0;32mI (26136) http_server: value_BLUE: 0[0m
+[0;32mI (26146) http_server: /setRGB.json requested[0m
+[0;32mI (26156) http_server: value_RED: 24[0m
+[0;32mI (26156) http_server: value_GREEN: 0[0m
+[0;32mI (26156) http_server: value_BLUE: 0[0m
+[0;32mI (26166) http_server: /setRGB.json requested[0m
+[0;32mI (26176) http_server: value_RED: 26[0m
+[0;32mI (26176) http_server: value_GREEN: 0[0m
+[0;32mI (26176) http_server: value_BLUE: 0[0m
+[0;32mI (26186) http_server: /setRGB.json requested[0m
+[0;32mI (26186) http_server: value_RED: 25[0m
+[0;32mI (26186) http_server: value_GREEN: 0[0m
+[0;32mI (26196) http_server: value_BLUE: 0[0m
+[0;32mI (26206) http_server: /setRGB.json requested[0m
+[0;32mI (26206) http_server: value_RED: 22[0m
+[0;32mI (26206) http_server: value_GREEN: 0[0m
+[0;32mI (26206) http_server: value_BLUE: 0[0m
+[0;32mI (26216) http_server: /setRGB.json requested[0m
+[0;32mI (26226) http_server: value_RED: 23[0m
+[0;32mI (26226) http_server: value_GREEN: 0[0m
+[0;32mI (26226) http_server: value_BLUE: 0[0m
+[0;32mI (26236) http_server: /setRGB.json requested[0m
+[0;32mI (26246) http_server: value_RED: 20[0m
+[0;32mI (26246) http_server: value_GREEN: 0[0m
+[0;32mI (26246) http_server: value_BLUE: 0[0m
+[0;32mI (26256) http_server: /setRGB.json requested[0m
+[0;32mI (26266) http_server: value_RED: 19[0m
+[0;32mI (26266) http_server: value_GREEN: 0[0m
+[0;32mI (26266) http_server: value_BLUE: 0[0m
+[0;32mI (26276) http_server: /setRGB.json requested[0m
+[0;32mI (26276) http_server: value_RED: 18[0m
+[0;32mI (26276) http_server: value_GREEN: 0[0m
+[0;32mI (26276) http_server: value_BLUE: 0[0m
+[0;32mI (26306) http_server: /setRGB.json requested[0m
+[0;32mI (26306) http_server: value_RED: 15[0m
+[0;32mI (26306) http_server: value_GREEN: 0[0m
+[0;32mI (26306) http_server: value_BLUE: 0[0m
+[0;32mI (26316) http_server: /setRGB.json requested[0m
+[0;32mI (26316) http_server: value_RED: 16[0m
+[0;32mI (26316) http_server: value_GREEN: 0[0m
+[0;32mI (26326) http_server: value_BLUE: 0[0m
+[0;32mI (26336) http_server: /setRGB.json requested[0m
+[0;32mI (26346) http_server: value_RED: 13[0m
+[0;32mI (26346) http_server: value_GREEN: 0[0m
+[0;32mI (26346) http_server: value_BLUE: 0[0m
+[0;32mI (26356) http_server: /setRGB.json requested[0m
+[0;32mI (26356) http_server: value_RED: 14[0m
+[0;32mI (26356) http_server: value_GREEN: 0[0m
+[0;32mI (26366) http_server: value_BLUE: 0[0m
+[0;32mI (26376) http_server: /setRGB.json requested[0m
+[0;32mI (26376) http_server: value_RED: 11[0m
+[0;32mI (26376) http_server: value_GREEN: 0[0m
+[0;32mI (26376) http_server: value_BLUE: 0[0m
+[0;32mI (26396) http_server: /setRGB.json requested[0m
+[0;32mI (26396) http_server: value_RED: 10[0m
+[0;32mI (26396) http_server: value_GREEN: 0[0m
+[0;32mI (26396) http_server: value_BLUE: 0[0m
+[0;32mI (26406) http_server: /setRGB.json requested[0m
+[0;32mI (26416) http_server: value_RED: 9[0m
+[0;32mI (26416) http_server: value_GREEN: 0[0m
+[0;32mI (26416) http_server: value_BLUE: 0[0m
+[0;32mI (26426) http_server: /setRGB.json requested[0m
+[0;32mI (26426) http_server: value_RED: 6[0m
+[0;32mI (26426) http_server: value_GREEN: 0[0m
+[0;32mI (26436) http_server: value_BLUE: 0[0m
+[0;32mI (26446) http_server: /setRGB.json requested[0m
+[0;32mI (26446) http_server: value_RED: 7[0m
+[0;32mI (26456) http_server: value_GREEN: 0[0m
+[0;32mI (26456) http_server: value_BLUE: 0[0m
+[0;32mI (26476) http_server: /setRGB.json requested[0m
+[0;32mI (26476) http_server: value_RED: 4[0m
+[0;32mI (26476) http_server: value_GREEN: 0[0m
+[0;32mI (26476) http_server: value_BLUE: 0[0m
+[0;32mI (26486) http_server: /setRGB.json requested[0m
+[0;32mI (26486) http_server: value_RED: 5[0m
+[0;32mI (26486) http_server: value_GREEN: 0[0m
+[0;32mI (26496) http_server: value_BLUE: 0[0m
+[0;32mI (26506) http_server: /setRGB.json requested[0m
+[0;32mI (26506) http_server: value_RED: 2[0m
+[0;32mI (26506) http_server: value_GREEN: 0[0m
+[0;32mI (26506) http_server: value_BLUE: 0[0m
+[0;32mI (26516) http_server: /setRGB.json requested[0m
+[0;32mI (26526) http_server: value_RED: 1[0m
+[0;32mI (26526) http_server: value_GREEN: 0[0m
+[0;32mI (26526) http_server: value_BLUE: 0[0m
+[0;32mI (26546) http_server: /setRGB.json requested[0m
+[0;32mI (26546) http_server: value_RED: 3[0m
+[0;32mI (26546) http_server: value_GREEN: 0[0m
+[0;32mI (26546) http_server: value_BLUE: 0[0m
+[0;32mI (26556) http_server: /setRGB.json requested[0m
+[0;32mI (26566) http_server: value_RED: 0[0m
+[0;32mI (26566) http_server: value_GREEN: 0[0m
+[0;32mI (26566) http_server: value_BLUE: 0[0m
+[0;32mI (26906) http_server: /setRGB.json requested[0m
+[0;32mI (26906) http_server: value_RED: 0[0m
+[0;32mI (26906) http_server: value_GREEN: 0[0m
+[0;32mI (26906) http_server: value_BLUE: 0[0m

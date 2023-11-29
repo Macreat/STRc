@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+C:/Users/Mateo Almeida/Desktop/wrkspSTR/str-esp-32-C-c/STRc/code/strT1V2R/build/CMakeFiles/bootloader
+C:/Users/Mateo Almeida/Desktop/wrkspSTR/str-esp-32-C-c/STRc/code/strT1V2R/build/CMakeFiles/bootloader.rule
+C:/Users/Mateo Almeida/Desktop/wrkspSTR/str-esp-32-C-c/STRc/code/strT1V2R/build/CMakeFiles/bootloader-complete.rule
+C:/Users/Mateo Almeida/Desktop/wrkspSTR/str-esp-32-C-c/STRc/code/strT1V2R/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+C:/Users/Mateo Almeida/Desktop/wrkspSTR/str-esp-32-C-c/STRc/code/strT1V2R/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+C:/Users/Mateo Almeida/Desktop/wrkspSTR/str-esp-32-C-c/STRc/code/strT1V2R/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+C:/Users/Mateo Almeida/Desktop/wrkspSTR/str-esp-32-C-c/STRc/code/strT1V2R/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+C:/Users/Mateo Almeida/Desktop/wrkspSTR/str-esp-32-C-c/STRc/code/strT1V2R/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+C:/Users/Mateo Almeida/Desktop/wrkspSTR/str-esp-32-C-c/STRc/code/strT1V2R/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+C:/Users/Mateo Almeida/Desktop/wrkspSTR/str-esp-32-C-c/STRc/code/strT1V2R/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule

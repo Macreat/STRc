@@ -1,108 +1,272 @@
-#include <stdio.h>
+// Explicación https://esp32tutorials.com/esp32-sntp-esp-idf-synchronize-time-ntp/
+
 #include <string.h>
-#include <stdlib.h>
-#include <math.h>
-#include "driver/gpio.h"
+#include <time.h>
+#include <sys/time.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "freertos/event_groups.h"
+#include "esp_system.h"
+#include "esp_event.h"
 #include "esp_log.h"
-#include "freertos/timers.h"
-#include "driver/adc.h"
-#include "freertos/queue.h"
+#include "esp_attr.h"
+#include "esp_sleep.h"
+#include "nvs_flash.h"
+#include "protocol_examples_common.h"
+#include "esp_sntp.h"
+#include "esp_wifi.h"
 #include "driver/uart.h"
-#include "esp_intr_alloc.h"
-#include "driver/ledc.h"
 
-#define BUTTON_PIN 19
-#define LED_PIN 21
-#define INDICATOR_LED_PIN 2
-#define cled 2
-#define LED_ON 1
-#define LED_OFF 0
+#include "lwip/err.h"
+#include "lwip/sockets.h"
+#include "lwip/sys.h"
+#include "lwip/netdb.h"
+#include "lwip/dns.h"
 
-static const char *TAG = "Button_Task";
-extern bool blinking = true;
+#define UART_NUM UART_NUM_2
+#define BUF_SIZE 1024
+#define STACK_SIZE 1024
+#define WIFI_SUCCESS 1 << 0
+#define WIFI_FAILURE 1 << 1
+#define TCP_SUCCESS 1 << 0
+#define TCP_FAILURE 1 << 1
+#define MAX_FAILURES 10
 
-QueueHandle_t buttonQueue;
+static const char* TAG = "example";
+static const char* tag = "UART EVENT";
 
-void IRAM_ATTR button_isr_handler(void *arg)
+static QueueHandle_t uart_queue;
+
+static EventGroupHandle_t wifi_event_group;
+static int s_retry_num = 0;
+
+static void initialize_sntp(void);
+static void update_time(void);
+static void init_uart(void);
+
+esp_err_t connect_wifi("IphMat", "110623Al");
+
+// event handler for wifi events
+static void wifi_event_handler(void* arg, esp_event_base_t event_base,
+    int32_t event_id, void* event_data)
 {
-    int buttonState = gpio_get_level(BUTTON_PIN);
-    xQueueSendFromISR(buttonQueue, &buttonState, NULL);
-}
-void turnOnIndicatorLed(int pin, TickType_t delayTime)
-{
-    gpio_set_level(pin, LED_ON);
-    vTaskDelay(delayTime);
-    gpio_set_level(pin, LED_OFF);
-}
-
-void blinkLed(int pin, bool blink)
-{
-    while (blink) // Mientras el botón no se presione
+    if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START)
     {
-
-        gpio_set_level(pin, LED_ON);
-        vTaskDelay(100 / portTICK_PERIOD_MS); // Encendido durante 100 ms
-        gpio_set_level(pin, LED_OFF);
-        vTaskDelay(100 / portTICK_PERIOD_MS); // Apagado durante 100 ms
-        int buttonState = gpio_get_level(BUTTON_PIN);
-        if (buttonState == 0)
+        ESP_LOGI(TAG, "Connecting to AP...");
+        esp_wifi_connect();
+    }
+    else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED)
+    {
+        if (s_retry_num < MAX_FAILURES)
         {
-            ESP_LOGI(TAG, "Button pressed. Blinking stopped ...");
-
-            break;
+            ESP_LOGI(TAG, "Reconnecting to AP...");
+            esp_wifi_connect();
+            s_retry_num++;
+        }
+        else
+        {
+            xEventGroupSetBits(wifi_event_group, WIFI_FAILURE);
         }
     }
-    gpio_set_level(LED_PIN, LED_OFF);
 }
 
-void button_task(void *pvParameters)
+// event handler for ip events
+static void ip_event_handler(void* arg, esp_event_base_t event_base,
+    int32_t event_id, void* event_data)
 {
-    int buttonState;
-    while (true)
+    if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP)
     {
-        if (xQueueReceive(buttonQueue, &buttonState, portMAX_DELAY))
-        {
-            buttonState == 0 ? (blinking = !blinking,
-                                turnOnIndicatorLed(cled, pdMS_TO_TICKS(1000)), vTaskDelay(1 / portTICK_PERIOD_MS))
-                             : ((void)0, vTaskDelay(1 / portTICK_PERIOD_MS));
+        ip_event_got_ip_t* event = (ip_event_got_ip_t*)event_data;
+        ESP_LOGI(TAG, "STA IP: " IPSTR, IP2STR(&event->ip_info.ip));
+        s_retry_num = 0;
+        xEventGroupSetBits(wifi_event_group, WIFI_SUCCESS);
+    }
+}
 
-            if (blinking)
-            {
-                ESP_LOGI(TAG, "Button pressed. Blinking ...");
+void time_sync_notification_cb(struct timeval* tv)
+{
+    ESP_LOGW(TAG, "Notification of a time synchronization event");
+}
 
-                blinkLed(LED_PIN, blinking);
-            }
-            else
-            {
+static void update_time(void)
+{
+    while (1)
+    {
+        // wait for time to be set
+        static time_t now = 0;
+        static struct tm timeinfo = { 0 };
 
-                blinkLed(LED_PIN, blinking);
-            }
-        }
+        // update 'now' variable with current time
+        time(&now);
+
+        char strftime_buf[64];
+
+        // Set timezone to Colombia Standard Time
+        setenv("TZ", "GTM+5", 1);
+        tzset();
+        localtime_r(&now, &timeinfo);
+        strftime(strftime_buf, sizeof(strftime_buf), "%c", &timeinfo);
+        ESP_LOGI(TAG, "The current date/time in Colombia is: %s", strftime_buf);
+        uart_write_bytes(UART_NUM, strcat(strftime_buf, "\n"), strlen(strftime_buf));
+
+        vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }
 
 void app_main(void)
 {
-    gpio_config_t io_conf = {
-        .pin_bit_mask = (1ULL << BUTTON_PIN),
-        .mode = GPIO_MODE_INPUT,
-        .intr_type = GPIO_INTR_ANYEDGE,
-        .pull_up_en = GPIO_PULLUP_ENABLE};
 
-    gpio_config(&io_conf);
+    init_uart();
 
-    gpio_config_t led_conf = {
-        .pin_bit_mask = (1ULL << LED_PIN) | (1ULL << INDICATOR_LED_PIN),
-        .mode = GPIO_MODE_OUTPUT};
+    esp_err_t status = WIFI_FAILURE;
 
-    gpio_config(&led_conf);
+    // initialize storage
+    esp_err_t ret = nvs_flash_init();
+    if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND)
+    {
+        ESP_ERROR_CHECK(nvs_flash_erase());
+        ret = nvs_flash_init();
+    }
+    ESP_ERROR_CHECK(ret);
 
-    buttonQueue = xQueueCreate(1, sizeof(int));
+    // connect to wireless AP
+    status = connect_wifi();
+    if (WIFI_SUCCESS != status)
+    {
+        ESP_LOGI(TAG, "Failed to associate to AP, dying...");
+        return;
+    }
 
-    gpio_install_isr_service(0);
-    gpio_isr_handler_add(BUTTON_PIN, button_isr_handler, (void *)BUTTON_PIN);
+    initialize_sntp();
 
-    xTaskCreate(button_task, "button_task", 2048, NULL, 10, NULL);
+    while (sntp_get_sync_status() != SNTP_SYNC_STATUS_COMPLETED)
+    {
+        ESP_LOGE(TAG, "ESPERANDO ACTUALIZACIÓN INICIAL DE HORA...");
+        vTaskDelay(pdMS_TO_TICKS(500));
+    }
+
+    static uint8_t ucParameterToPass;
+    TaskHandle_t xHandle = NULL;
+    xTaskCreate(update_time, "update_time", STACK_SIZE * 3, ucParameterToPass, 5, xHandle);
+}
+
+static void initialize_sntp(void)
+{
+    ESP_LOGI(TAG, "Initializing SNTP");
+    sntp_setoperatingmode(SNTP_OPMODE_POLL);
+    sntp_set_sync_interval(15000);
+    sntp_setservername(0, "pool.ntp.org");
+    sntp_set_time_sync_notification_cb(time_sync_notification_cb);
+    sntp_init();
+}
+
+// connect to wifi and return the result
+esp_err_t connect_wifi()
+{
+    int status = WIFI_FAILURE;
+
+    /** INITIALIZE ALL THE THINGS **/
+    // initialize the esp network interface
+    ESP_ERROR_CHECK(esp_netif_init());
+
+    // initialize default esp event loop
+    ESP_ERROR_CHECK(esp_event_loop_create_default());
+
+    // create wifi station in the wifi driver
+    esp_netif_create_default_wifi_sta();
+
+    // setup wifi station with the default wifi configuration
+    wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
+    ESP_ERROR_CHECK(esp_wifi_init(&cfg));
+
+    /** EVENT LOOP CRAZINESS **/
+    wifi_event_group = xEventGroupCreate();
+
+    esp_event_handler_instance_t wifi_handler_event_instance;
+    ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT,
+        ESP_EVENT_ANY_ID,
+        &wifi_event_handler,
+        NULL,
+        &wifi_handler_event_instance));
+
+    esp_event_handler_instance_t got_ip_event_instance;
+    ESP_ERROR_CHECK(esp_event_handler_instance_register(IP_EVENT,
+        IP_EVENT_STA_GOT_IP,
+        &ip_event_handler,
+        NULL,
+        &got_ip_event_instance));
+
+    /** START THE WIFI DRIVER **/
+    wifi_config_t wifi_config = {
+        .sta = {
+            .ssid = "IphMat",
+            .password = "110623Al",
+            .threshold.authmode = WIFI_AUTH_WPA2_PSK,
+            .pmf_cfg = {
+                .capable = true,
+                .required = false},
+        },
+    };
+
+    // set the wifi controller to be a station
+    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
+
+    // set the wifi config
+    ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config));
+
+    // start the wifi driver
+    ESP_ERROR_CHECK(esp_wifi_start());
+
+    ESP_LOGI(TAG, "STA initialization complete");
+
+    /** NOW WE WAIT **/
+    EventBits_t bits = xEventGroupWaitBits(wifi_event_group,
+        WIFI_SUCCESS | WIFI_FAILURE,
+        pdFALSE,
+        pdFALSE,
+        portMAX_DELAY);
+
+    /* xEventGroupWaitBits() returns the bits before the call returned, hence we can test which event actually
+     * happened. */
+    if (bits & WIFI_SUCCESS)
+    {
+        ESP_LOGI(TAG, "Connected to ap");
+        status = WIFI_SUCCESS;
+    }
+    else if (bits & WIFI_FAILURE)
+    {
+        ESP_LOGI(TAG, "Failed to connect to ap");
+        status = WIFI_FAILURE;
+    }
+    else
+    {
+        ESP_LOGE(TAG, "UNEXPECTED EVENT");
+        status = WIFI_FAILURE;
+    }
+
+    /* The event will not be processed after unregister */
+    ESP_ERROR_CHECK(esp_event_handler_instance_unregister(IP_EVENT, IP_EVENT_STA_GOT_IP, got_ip_event_instance));
+    ESP_ERROR_CHECK(esp_event_handler_instance_unregister(WIFI_EVENT, ESP_EVENT_ANY_ID, wifi_handler_event_instance));
+    vEventGroupDelete(wifi_event_group);
+
+    return status;
+}
+
+static void init_uart(void)
+{
+    uart_config_t uart_config = {
+        .baud_rate = 115200,
+        .data_bits = UART_DATA_8_BITS,
+        .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
+        .parity = UART_PARITY_DISABLE,
+        .source_clk = UART_SCLK_APB,
+        .stop_bits = UART_STOP_BITS_1 };
+
+    uart_param_config(UART_NUM, &uart_config);
+
+    uart_set_pin(UART_NUM, 17, 16, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
+
+    uart_driver_install(UART_NUM, BUF_SIZE, BUF_SIZE, 5, &uart_queue, 0);
+
+    ESP_LOGI(tag, "Init uart completed");
 }
