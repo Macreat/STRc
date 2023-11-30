@@ -16,6 +16,7 @@
     "idf.toolsPathWin": "C:\\ESP32\\Espressif",
     "idf.flashType": "UART",
     "files.associations": {
-        "wifi_app.h": "c"
+        "wifi_app.h": "c",
+        "task.h": "c"
     }
 }

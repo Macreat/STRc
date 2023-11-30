@@ -1,116 +1,56 @@
 body {
-  background-color: #d1cccc;
-  font-family: HelveticaNeueRegular, HelveticaNeue-Regular,
-    "Helvetica Neue Regular", HelveticaNeue, "Helvetica Neue", Helvetica, Arial;
-  color: #0272b7;
+  background: linear-gradient(135deg, #ffa17f, #00223e);
+  font-family: 'Helvetica Neue', sans-serif;
+  color: #ffffff;
 }
 
 h1 {
-  display: block;
-  text-align: center;
-  margin: 0;
-  padding: 10px;
-  font-size: 1.7em;
-  color: #1d3557;
+  font-size: 2em;
+  color: #ffcb69;
+  text-shadow: 2px 2px 4px #000000;
 }
 
-h2 {
-  font-size: 1.4em;
-  color: #1d3557;
+h2, h3, h4 {
+  color: #cbf3f0;
 }
 
-h3 {
-  font-size: 1.2em;
-  color: #1d3557;
+.buttons input[type="button"] {
+  background-color: #ff9a8b;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-h4 {
-  font-size: 1em;
-  color: #1d3557;
+.buttons input[type="button"]:hover {
+  background-color: #ff6b6b;
 }
 
-.gr {
-  color: green;
-}
-.rd {
-  color: red;
-}
-
-#latest_firmware,
-#latest_firmware_label {
-  display: inline;
-}
-#latest_firmware {
-  color: #1d3557;
-}
-
-#temperature_reading {
-  display: inline;
-  color: #1d3557;
-}
-
-#humidity_reading {
-  display: inline;
-  color: #1d3557;
-}
-
-.buttons {
-  padding: 5px;
-}
-
-input[type="button"] {
-  font-size: 12px;
-  border: 0;
-  line-height: 2;
-  padding: 0 5px;
-  text-align: center;
-  color: #ffffff;
-  text-shadow: 1px 1px 1px #000;
+.RGBcontrol_panel input[type="range"] {
+  -webkit-appearance: none;
+  height: 15px;
   border-radius: 10px;
-  background-color: RGBA(106, 125, 144, 0.35);
-  background-image: linear-gradient(
-    to top left,
-    rgba(0, 0, 0, 0.2),
-    rgba(0, 0, 0, 0.2) 30%,
-    rgba(0, 0, 0, 0)
-  );
-  box-shadow: inset 2px 2px 3px rgba(255, 255, 255, 0.6),
-    inset -2px -2px 3px rgba(0, 0, 0, 0.6);
+  background: #2ec4b6;
+  outline: none;
 }
 
-input[type="button"]:hover {
-  background-color: RGBA(112, 164, 222, 0.68);
-}
-
-input[type="button"]:active {
-  box-shadow: inset -2px -2px 3px rgba(255, 255, 255, 0.6),
-    inset 2px 2px 3px rgba(0, 0, 0, 0.6);
-}
-#circulo {
-  width: 50px;
-  height: 50px;
+.RGBcontrol_panel input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
-  background-color: gray;
-  position: relative;
-  z-index: 2;
+  background: #ff9f1c;
+  cursor: pointer;
 }
 
-.RGBcontrol_panel {
-  position: relative;
-  z-index: 1;
-}
-
-.NTC_Temperatue_panel {
-  position: relative;
-  z-index: 2;
-}
-#value {
-  position: relative;
-  z-index: 1;
-}
-
-input[type="range"] {
-  width: 100%; /* Ajusta al ancho deseado */
-  margin: 5px 0; /* Espaciado */
-  /* Puedes añadir más estilos aquí */
+#circulo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #fdfffc;
+  box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
 }

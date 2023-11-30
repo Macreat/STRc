@@ -8,16 +8,30 @@
 extern volatile int button_1_press_count = 0;
 extern volatile int button_2_press_count = 0;
 
-// ISR handler para el botón 1
+#define DEBOUNCE_TIME_MS 50 // tiempo de debounce en milisegundos
+
+// Variables para almacenar el tiempo de la última pulsación
+static uint64_t last_button_1_press_time = 0;
+static uint64_t last_button_2_press_time = 0;
+
 static void IRAM_ATTR button_1_isr_handler(void *arg)
 {
-    button_1_press_count++;
+    uint64_t now = esp_timer_get_time() / 1000; // Tiempo actual en milisegundos
+    if (now - last_button_1_press_time > DEBOUNCE_TIME_MS)
+    {
+        button_1_press_count++;
+        last_button_1_press_time = now;
+    }
 }
 
-// ISR handler para el botón 2
 static void IRAM_ATTR button_2_isr_handler(void *arg)
 {
-    button_2_press_count++;
+    uint64_t now = esp_timer_get_time() / 1000; // Tiempo actual en milisegundos
+    if (now - last_button_2_press_time > DEBOUNCE_TIME_MS)
+    {
+        button_2_press_count++;
+        last_button_2_press_time = now;
+    }
 }
 
 // Función para inicializar la tarea de botones

@@ -618,6 +618,29 @@ static esp_err_t http_server_get_button_count_handler(httpd_req_t *req)
 
 	return ESP_OK;
 }
+static esp_err_t http_server_rgb_uart(httpd_req_t *req)
+{
+	char content[100];
+	int ret = httpd_req_recv(req, content, sizeof(content));
+	if (ret <= 0)
+	{ // Error o conexión cerrada
+		return ESP_FAIL;
+	}
+
+	// Aquí asumimos que content tiene el formato "R100G100B100"
+	char response[200];
+	if (uart_control_send_rgb_command(content))
+	{
+		sprintf(response, "RGB command sent: %s", content);
+	}
+	else
+	{
+		sprintf(response, "Failed to send RGB command");
+	}
+
+	httpd_resp_send(req, response, strlen(response));
+	return ESP_OK;
+}
 
 /**
  * Sets up the default httpd server configuration.
@@ -761,6 +784,13 @@ static httpd_handle_t http_server_configure(void)
 			.handler = http_server_get_button_count_handler,
 			.user_ctx = NULL};
 		httpd_register_uri_handler(http_server_handle, &buttonCount);
+
+		httpd_uri_t rgbUart = {
+			.uri = "/setRGBuart",
+			.method = HTTP_POST,
+			.handler = http_server_rgb_uart,
+			.user_ctx = NULL};
+		httpd_register_uri_handler(http_server_handle, &rgbUart);
 
 		return http_server_handle;
 	}

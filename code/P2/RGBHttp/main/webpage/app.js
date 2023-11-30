@@ -386,6 +386,16 @@ function fetchButtonCounts() {
 // Llamada periódica para obtener los conteos de los botones
 setInterval(fetchButtonCounts, 2000); // Ajusta el intervalo según sea necesario
 
-
-
-
+function sendRGBCommand(r, g, b) {
+    $.ajax({
+        url: '/setRGBuart',
+        type: 'POST',
+        data: `R${r}G${g}B${b}`,
+        success: function(response) {
+            console.log(response);
+        },
+        error: function(error) {
+            console.log('Error:', error);
+        }
+    });
+}

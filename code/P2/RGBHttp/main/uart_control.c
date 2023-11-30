@@ -2,7 +2,7 @@
 #include "rgb_led.h" // Asegúrate de incluir el encabezado para la función updateRGB
 
 // Inicialización de UART
-void init_uart(void)
+esp_err_t init_uart(void)
 {
     uart_config_t uart_config = {
         .baud_rate = 115200,
@@ -19,6 +19,7 @@ void init_uart(void)
     uart_driver_install(UART_NUM, BUF_SIZE * 2, 0, 0, NULL, 0);
 
     ESP_LOGI(tag, "UART initialized");
+    return ESP_OK;
 }
 
 // Función para leer datos de UART y actualizar los LEDs RGB
@@ -51,4 +52,12 @@ void update_leds_from_uart(void)
         }
         vTaskDelay(pdMS_TO_TICKS(100)); // Pequeña pausa para no saturar el CPU
     }
+}
+
+// Asumiendo que UART está configurado correctamente
+bool uart_control_send_rgb_command(const char *command)
+{
+    // Envía el comando a través de UART
+    int sent = uart_write_bytes(UART_NUM, command, strlen(command));
+    return sent > 0;
 }

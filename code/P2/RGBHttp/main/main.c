@@ -17,12 +17,7 @@ void app_main(void)
 	inicializeNTC();
 	button_task_initialize();
 
-	int g1 = get_button_1_press_count;
-	int g2 = get_button_2_press_count;
-	ESP_LOGI("BUTTON_COUNT", "Button 1 pressed: %d times", g1);
-	ESP_LOGI("BUTTON_COUNT", "Button 2 pressed: %d times", g2);
-
-	// Initialize NVS
+		// Initialize NVS
 	esp_err_t ret = nvs_flash_init();
 	if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND)
 	{
@@ -33,8 +28,6 @@ void app_main(void)
 
 	// Start Wifi
 	wifi_app_start();
-	/*
 	init_uart();
 	update_leds_from_uart();
-	*/
 }

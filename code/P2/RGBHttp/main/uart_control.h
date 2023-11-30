@@ -15,7 +15,8 @@
 static const char *tag = "UART EVENT";
 
 void send_time_UART(void);
-void init_uart(void);
+esp_err_t init_uart(void);
 void update_leds_from_uart(void);
+bool uart_control_send_rgb_command(const char *command);
 
 #endif
