@@ -1,12 +1,12 @@
 body {
-  background: linear-gradient(135deg, #ffa17f, #00223e);
+  background: linear-gradient(135deg, rgb(29, 29, 29), #00223e);
   font-family: 'Helvetica Neue', sans-serif;
   color: #ffffff;
 }
 
 h1 {
   font-size: 2em;
-  color: #ffcb69;
+  color: rgb(168, 39, 7)135, 105);
   text-shadow: 2px 2px 4px #000000;
 }
 
@@ -15,7 +15,7 @@ h2, h3, h4 {
 }
 
 .buttons input[type="button"] {
-  background-color: #ff9a8b;
+  background-color: rgb(53, 6, 64), 139, 255);
   border: none;
   color: #fff;
   padding: 10px 20px;
@@ -25,7 +25,30 @@ h2, h3, h4 {
 }
 
 .buttons input[type="button"]:hover {
-  background-color: #ff6b6b;
+  background-color: #1c044b71;
+}
+
+.temperature-control-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title-container {
+  text-align: center;
+  margin-bottom: 20px; /* Ajusta según sea necesario */
+}
+
+.controls-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%; /* Ajusta al ancho del contenedor si es necesario */
+}
+
+.NTC_Temperatue_show, .NTC_Temperatue_panel {
+  flex-basis: 45%; /* Ajusta este valor según sea necesario */
+  margin: 10px;
 }
 
 .RGBcontrol_panel input[type="range"] {
@@ -42,7 +65,25 @@ h2, h3, h4 {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background: #ff9f1c;
+  background: #0c0357;
+  cursor: pointer;
+}
+
+.LEDControlPanel input[type="range"] {
+  -webkit-appearance: none;
+  height: 15px;
+  border-radius: 10px;
+  background: #2e72c4;
+  outline: none;
+}
+
+.LEDControlPanel input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #0d5211;
   cursor: pointer;
 }
 
@@ -53,4 +94,45 @@ h2, h3, h4 {
   background-color: #fdfffc;
   box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease;
+}
+
+.control-panel-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.RGBcontrol_panel, .LEDControlPanel {
+  flex: 1;
+  margin: 10px;
+  padding: 10px;
+}
+
+/* Si deseas centrar los controles y no expandirlos completamente */
+.control-panel-container {
+  max-width: 1200px; /* Ajusta esto según la anchura que prefieras */
+  margin: auto; /* Esto centrará el contenedor */
+}
+
+#RGB_Control section {
+  display: block; /* Cada sección ocupará toda la línea */
+}
+
+#RGB_Control {
+  margin-bottom: 20px; /* Espacio debajo del control RGB antes del hr */
+}
+
+hr {
+  border: 0;
+  height: 2px;
+  background-color: #333; /* Color de la línea */
+  margin: 20px 0; /* Espacio arriba y abajo del hr */
+}
+
+.custom-divider {
+  border: 0;  /* Elimina el borde predeterminado */
+  height: 2px; /* Establece la altura de la línea */
+  background-color: #333; /* Cambia el color de la línea a gris oscuro */
+  margin: 20px 0; /* Añade espacio antes y después de la línea */
 }
