@@ -1,5 +1,6 @@
 // libraries used 
 #include "freertos/FreeRTOS.h"
+#include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "driver/adc.h"
 #include "esp_adc_cal.h"
