@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/MateoAlmeida/RGBHttp
+# Install script for directory: C:/Users/MateoAlmeida/Desktop/wrkspSTR/str-esp-32-C-c/STRc/code/P2/RGBHttp
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,7 +39,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/MateoAlmeida/RGBHttp/build/esp-idf/cmake_install.cmake")
+  include("C:/Users/MateoAlmeida/Desktop/wrkspSTR/str-esp-32-C-c/STRc/code/P2/RGBHttp/build/esp-idf/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/MateoAlmeida/RGBHttp/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/MateoAlmeida/Desktop/wrkspSTR/str-esp-32-C-c/STRc/code/P2/RGBHttp/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

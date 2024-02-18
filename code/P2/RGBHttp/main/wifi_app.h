@@ -12,11 +12,11 @@
 #include "esp_wifi_types.h"
 #include "freertos/FreeRTOS.h"
 
-// Callback typedef
+ // Callback typedef
 typedef void (*wifi_connected_event_callback_t)(void);
 
 // WiFi application settings
-#define WIFI_AP_SSID				"ESP32_AP_GAP"			// AP name
+#define WIFI_AP_SSID				"ESP32_AP_GAP2"			// AP name
 #define WIFI_AP_PASSWORD			"password"			// AP password
 #define WIFI_AP_CHANNEL				1					// AP channel
 #define WIFI_AP_SSID_HIDDEN			0					// AP visibility

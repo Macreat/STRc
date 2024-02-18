@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/MateoAlmeida/RGBHttp/main
+# Install script for directory: C:/Users/MateoAlmeida/Desktop/wrkspSTR/str-esp-32-C-c/STRc/code/P2/RGBHttp/main
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

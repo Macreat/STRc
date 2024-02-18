@@ -1,5 +1,5 @@
 // Explicación https://esp32tutorials.com/esp32-sntp-esp-idf-synchronize-time-ntp/
-
+// this is T5
 #include <string.h>
 #include <time.h>
 #include <sys/time.h>
@@ -32,8 +32,8 @@
 #define TCP_FAILURE 1 << 1
 #define MAX_FAILURES 10
 
-static const char *TAG = "example";
-static const char *tag = "UART EVENT";
+static const char* TAG = "example";
+static const char* tag = "UART EVENT";
 
 static QueueHandle_t uart_queue;
 
@@ -47,8 +47,8 @@ static void init_uart(void);
 esp_err_t connect_wifi("IphMat", "110623Al");
 
 // event handler for wifi events
-static void wifi_event_handler(void *arg, esp_event_base_t event_base,
-                               int32_t event_id, void *event_data)
+static void wifi_event_handler(void* arg, esp_event_base_t event_base,
+    int32_t event_id, void* event_data)
 {
     if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START)
     {
@@ -71,19 +71,19 @@ static void wifi_event_handler(void *arg, esp_event_base_t event_base,
 }
 
 // event handler for ip events
-static void ip_event_handler(void *arg, esp_event_base_t event_base,
-                             int32_t event_id, void *event_data)
+static void ip_event_handler(void* arg, esp_event_base_t event_base,
+    int32_t event_id, void* event_data)
 {
     if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP)
     {
-        ip_event_got_ip_t *event = (ip_event_got_ip_t *)event_data;
+        ip_event_got_ip_t* event = (ip_event_got_ip_t*)event_data;
         ESP_LOGI(TAG, "STA IP: " IPSTR, IP2STR(&event->ip_info.ip));
         s_retry_num = 0;
         xEventGroupSetBits(wifi_event_group, WIFI_SUCCESS);
     }
 }
 
-void time_sync_notification_cb(struct timeval *tv)
+void time_sync_notification_cb(struct timeval* tv)
 {
     ESP_LOGW(TAG, "Notification of a time synchronization event");
 }
@@ -94,7 +94,7 @@ static void update_time(void)
     {
         // wait for time to be set
         static time_t now = 0;
-        static struct tm timeinfo = {0};
+        static struct tm timeinfo = { 0 };
 
         // update 'now' variable with current time
         time(&now);
@@ -184,17 +184,17 @@ esp_err_t connect_wifi()
 
     esp_event_handler_instance_t wifi_handler_event_instance;
     ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT,
-                                                        ESP_EVENT_ANY_ID,
-                                                        &wifi_event_handler,
-                                                        NULL,
-                                                        &wifi_handler_event_instance));
+        ESP_EVENT_ANY_ID,
+        &wifi_event_handler,
+        NULL,
+        &wifi_handler_event_instance));
 
     esp_event_handler_instance_t got_ip_event_instance;
     ESP_ERROR_CHECK(esp_event_handler_instance_register(IP_EVENT,
-                                                        IP_EVENT_STA_GOT_IP,
-                                                        &ip_event_handler,
-                                                        NULL,
-                                                        &got_ip_event_instance));
+        IP_EVENT_STA_GOT_IP,
+        &ip_event_handler,
+        NULL,
+        &got_ip_event_instance));
 
     /** START THE WIFI DRIVER **/
     wifi_config_t wifi_config = {
@@ -221,10 +221,10 @@ esp_err_t connect_wifi()
 
     /** NOW WE WAIT **/
     EventBits_t bits = xEventGroupWaitBits(wifi_event_group,
-                                           WIFI_SUCCESS | WIFI_FAILURE,
-                                           pdFALSE,
-                                           pdFALSE,
-                                           portMAX_DELAY);
+        WIFI_SUCCESS | WIFI_FAILURE,
+        pdFALSE,
+        pdFALSE,
+        portMAX_DELAY);
 
     /* xEventGroupWaitBits() returns the bits before the call returned, hence we can test which event actually
      * happened. */
@@ -260,7 +260,7 @@ static void init_uart(void)
         .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
         .parity = UART_PARITY_DISABLE,
         .source_clk = UART_SCLK_APB,
-        .stop_bits = UART_STOP_BITS_1};
+        .stop_bits = UART_STOP_BITS_1 };
 
     uart_param_config(UART_NUM, &uart_config);
 

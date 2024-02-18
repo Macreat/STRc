@@ -136,3 +136,7 @@ hr {
   background-color: #333; /* Cambia el color de la línea a gris oscuro */
   margin: 20px 0; /* Añade espacio antes y después de la línea */
 }
+.motor-control-container {
+  text-align: center;
+  margin: 20px;
+}

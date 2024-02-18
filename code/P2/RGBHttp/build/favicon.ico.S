@@ -1,4 +1,4 @@
-/* * Data converted from C:/Users/MateoAlmeida/RGBHttp/main/webpage/favicon.ico
+/* * Data converted from C:/Users/MateoAlmeida/Desktop/wrkspSTR/str-esp-32-C-c/STRc/code/P2/RGBHttp/main/webpage/favicon.ico
  */
 .data
 .section .rodata.embedded

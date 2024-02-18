@@ -1,114 +1,88 @@
 #include <stdio.h>
-#include <stdbool.h>
-#include <unistd.h>
-#include <driver/gpio.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "freertos/queue.h"
+#include "driver/gpio.h"
+#include "driver/adc.h"
+#include "driver/ledc.h"
 
-#define button 19
-#define led1 21
-#define led2 22
-#define led3 23
-#define portTICK_PERIOD_MS 1
-#define ledOFF 0
-#define ledON 1
-#define cled 2
+#define BOTON_PIN 19
+#define LED1_PIN GPIO_NUM_26
+#define LED2_PIN GPIO_NUM_25
+#define LED3_PIN GPIO_NUM_33
+#define POT_PIN ADC1_CHANNEL_7
 
-int currentLed = 0; // Variable para mantener el estado actual del LED
+int led_actual = 0;
+int brillo_general = 0;
+ledc_channel_config_t ledc_channel[3];
 
-
-QueueHandle_t buttonQueue; // Cola para el estado del botón
-
-void SetPines()
+void configurar_pines()
 {
-    gpio_set_direction(button, GPIO_MODE_INPUT);
-    gpio_set_pull_mode(button, GPIO_PULLUP_ONLY);
-    gpio_set_direction(led1, GPIO_MODE_OUTPUT);
-    gpio_set_direction(led2, GPIO_MODE_OUTPUT);
-    gpio_set_direction(led3, GPIO_MODE_OUTPUT);
-    gpio_set_direction(cled, GPIO_MODE_OUTPUT);
+    gpio_config_t io_conf = {
+        .pin_bit_mask = (1ULL << BOTON_PIN),
+        .mode = GPIO_MODE_INPUT,
+        .intr_type = GPIO_INTR_ANYEDGE,
+        .pull_up_en = GPIO_PULLUP_ENABLE,
+    };
+    gpio_config(&io_conf);
+
+    io_conf.pin_bit_mask = (1ULL << LED1_PIN) | (1ULL << LED2_PIN) | (1ULL << LED3_PIN);
+    io_conf.mode = GPIO_MODE_OUTPUT;
+    gpio_config(&io_conf);
 }
 
-void blinkLed(int pin)
+void configurar_ledc()
 {
-    bool blinking = true; // definir al principio
-    while (blinking)
+    for (int i = 0; i < 3; i++)
     {
-        int estadoButton = gpio_get_level(button);
-        gpio_set_level(pin, ledON);
-        vTaskDelay(10 / portTICK_PERIOD_MS);
-        gpio_set_level(pin, ledOFF);
-        vTaskDelay(10 / portTICK_PERIOD_MS);
-        if (estadoButton == 0)
-        {
-            blinking = false;
-        }
+        ledc_channel[i].channel = LEDC_CHANNEL_0 + i;
+        ledc_channel[i].duty = 0;
+        ledc_channel[i].gpio_num = LED1_PIN + i;
+        ledc_channel[i].speed_mode = LEDC_HIGH_SPEED_MODE;
+        ledc_channel[i].hpoint = 0;
+        ledc_channel[i].timer_sel = LEDC_TIMER_0;
+        ledc_channel_config(&ledc_channel[i]);
     }
+
+    ledc_timer_config_t ledc_timer = {
+        .duty_resolution = LEDC_TIMER_8_BIT,
+        .freq_hz = 5000,
+        .speed_mode = LEDC_HIGH_SPEED_MODE,
+        .timer_num = LEDC_TIMER_0,
+    };
+    ledc_timer_config(&ledc_timer);
 }
 
-void turnOnIndicatorLed(int pin, TickType_t delayTime)
+void boton_isr_handler(void *arg)
 {
-    gpio_set_level(pin, ledON);
-    vTaskDelay(delayTime);
-    gpio_set_level(pin, ledOFF);
+    led_actual = (led_actual + 1) % 3;
 }
 
-void buttonTask(void *pvParameter)
-{
-    while (true)
-    {
-        int estadoButton = gpio_get_level(button);
-        xQueueSend(buttonQueue, &estadoButton, portMAX_DELAY);
-        vTaskDelay(pdMS_TO_TICKS(10)); // Pequeño retardo para evitar lecturas múltiples del botón
-    }
-}
-
-void changeLed(void *pvParameters)
-{
-    int estadoButton;
-
-    while (true)
-    {
-        xQueueReceive(buttonQueue, &estadoButton, portMAX_DELAY);
-
-        if (estadoButton == 0)
-        {
-            // Enciende el indicador LED durante 2 segundos
-            turnOnIndicatorLed(cled, pdMS_TO_TICKS(1000));
-
-            // Espera un poco para evitar múltiples detecciones del botón
-            vTaskDelay(pdMS_TO_TICKS(100));
-
-            // Cambia al siguiente LED
-            currentLed = *((int *)pvParameters);
-            currentLed = (currentLed + 1) % 3;
-            *((int *)pvParameters) = currentLed;
-        }
-
-        // Enciende el LED correspondiente
-        switch (*((int *)pvParameters))
-        {
-        case 0:
-            blinkLed(led1);
-            break;
-        case 1:
-            blinkLed(led2);
-            break;
-        case 2:
-            blinkLed(led3);
-            break;
-        }
-    }
-}
 void app_main(void)
 {
-    SetPines();
+    configurar_pines();
+    configurar_ledc();
 
-    // Crear la cola para el estado del botón
-    buttonQueue = xQueueCreate(1, sizeof(int));
+    gpio_install_isr_service(0);
+    gpio_isr_handler_add(BOTON_PIN, boton_isr_handler, (void *)BOTON_PIN);
 
-    // Crear tareas
-    xTaskCreate(buttonTask, "button_task", 2048, NULL, 10, NULL);
-    xTaskCreate(changeLed, "change_led_task", 2048, &currentLed, 10, NULL);
+    while (1)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if (i == led_actual)
+            {
+                ledc_set_duty(LEDC_HIGH_SPEED_MODE, ledc_channel[i].channel, brillo_general);
+            }
+            else
+            {
+                ledc_set_duty(LEDC_HIGH_SPEED_MODE, ledc_channel[i].channel, 0);
+            }
+            ledc_update_duty(LEDC_HIGH_SPEED_MODE, ledc_channel[i].channel);
+        }
+
+        int valor_potenciometro = adc1_get_raw(POT_PIN);
+        brillo_general = (valor_potenciometro * 255) / 4095;
+
+        vTaskDelay(100 / portTICK_PERIOD_MS);
+    }
 }

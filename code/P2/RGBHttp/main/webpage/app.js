@@ -399,3 +399,19 @@ function sendRGBCommand(r, g, b) {
         }
     });
 }
+
+function abrirMotores() {
+    // Realizar solicitud para abrir motores
+    fetch('/motorAYBabrir')
+        .then(response => response.text())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
+}
+
+function cerrarMotores() {
+    // Realizar solicitud para cerrar motores
+    fetch('/motorAYBcerrar')
+        .then(response => response.text())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
+}

@@ -14,13 +14,13 @@ extern "C"
 {
 #endif
 
-// Define las constantes para el éxito y el fracaso de la conexión Wi-Fi
+    // Define las constantes para el éxito y el fracaso de la conexión Wi-Fi
 #define WIFI_SUCCESS 1 << 0
 #define WIFI_FAILURE 1 << 1
 
     // Funciones para inicializar la memoria no volátil y establecer la conexión Wi-Fi
     esp_err_t initialize_nvs(void);
-    esp_err_t connect_wifi(const char *ssid, const char *password);
+    esp_err_t connect_wifi(void);
 
 #ifdef __cplusplus
 }

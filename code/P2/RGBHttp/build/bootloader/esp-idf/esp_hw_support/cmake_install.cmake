@@ -39,6 +39,6 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/MateoAlmeida/RGBHttp/build/bootloader/esp-idf/esp_hw_support/port/esp32/cmake_install.cmake")
+  include("C:/Users/MateoAlmeida/Desktop/wrkspSTR/str-esp-32-C-c/STRc/code/P2/RGBHttp/build/bootloader/esp-idf/esp_hw_support/port/esp32/cmake_install.cmake")
 endif()
 

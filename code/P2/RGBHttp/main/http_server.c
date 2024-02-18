@@ -22,6 +22,7 @@
 #include "wifi_app.h"
 #include "rgb_led.h"
 #include "cJSON.h"
+#include "motor_control.h"
 
 extern QueueHandle_t Temperaturas;
 
@@ -50,7 +51,7 @@ const esp_timer_create_args_t fw_update_reset_args = {
 	.callback = &http_server_fw_update_reset_callback,
 	.arg = NULL,
 	.dispatch_method = ESP_TIMER_TASK,
-	.name = "fw_update_reset"};
+	.name = "fw_update_reset" };
 esp_timer_handle_t fw_update_reset;
 
 // Embedded files: JQuery, index.html, app.css, app.js and favicon.ico files
@@ -88,7 +89,7 @@ static void http_server_fw_update_reset_timer(void)
  * HTTP server monitor task used to track events of the HTTP server
  * @param pvParameters parameter which can be passed to the task.
  */
-static void http_server_monitor(void *parameter)
+static void http_server_monitor(void* parameter)
 {
 	http_server_queue_message_t msg;
 
@@ -144,12 +145,12 @@ static void http_server_monitor(void *parameter)
  * @param req HTTP request for which the uri needs to be handled.
  * @return ESP_OK
  */
-static esp_err_t http_server_jquery_handler(httpd_req_t *req)
+static esp_err_t http_server_jquery_handler(httpd_req_t* req)
 {
 	ESP_LOGI(TAG, "Jquery requested");
 
 	httpd_resp_set_type(req, "application/javascript");
-	httpd_resp_send(req, (const char *)jquery_3_3_1_min_js_start, jquery_3_3_1_min_js_end - jquery_3_3_1_min_js_start);
+	httpd_resp_send(req, (const char*)jquery_3_3_1_min_js_start, jquery_3_3_1_min_js_end - jquery_3_3_1_min_js_start);
 
 	return ESP_OK;
 }
@@ -159,12 +160,12 @@ static esp_err_t http_server_jquery_handler(httpd_req_t *req)
  * @param req HTTP request for which the uri needs to be handled.
  * @return ESP_OK
  */
-static esp_err_t http_server_index_html_handler(httpd_req_t *req)
+static esp_err_t http_server_index_html_handler(httpd_req_t* req)
 {
 	ESP_LOGI(TAG, "index.html requested");
 
 	httpd_resp_set_type(req, "text/html");
-	httpd_resp_send(req, (const char *)index_html_start, index_html_end - index_html_start);
+	httpd_resp_send(req, (const char*)index_html_start, index_html_end - index_html_start);
 
 	return ESP_OK;
 }
@@ -174,12 +175,12 @@ static esp_err_t http_server_index_html_handler(httpd_req_t *req)
  * @param req HTTP request for which the uri needs to be handled.
  * @return ESP_OK
  */
-static esp_err_t http_server_app_css_handler(httpd_req_t *req)
+static esp_err_t http_server_app_css_handler(httpd_req_t* req)
 {
 	ESP_LOGI(TAG, "app.css requested");
 
 	httpd_resp_set_type(req, "text/css");
-	httpd_resp_send(req, (const char *)app_css_start, app_css_end - app_css_start);
+	httpd_resp_send(req, (const char*)app_css_start, app_css_end - app_css_start);
 
 	return ESP_OK;
 }
@@ -189,12 +190,12 @@ static esp_err_t http_server_app_css_handler(httpd_req_t *req)
  * @param req HTTP request for which the uri needs to be handled.
  * @return ESP_OK
  */
-static esp_err_t http_server_app_js_handler(httpd_req_t *req)
+static esp_err_t http_server_app_js_handler(httpd_req_t* req)
 {
 	ESP_LOGI(TAG, "app.js requested");
 
 	httpd_resp_set_type(req, "application/javascript");
-	httpd_resp_send(req, (const char *)app_js_start, app_js_end - app_js_start);
+	httpd_resp_send(req, (const char*)app_js_start, app_js_end - app_js_start);
 
 	return ESP_OK;
 }
@@ -204,12 +205,12 @@ static esp_err_t http_server_app_js_handler(httpd_req_t *req)
  * @param req HTTP request for which the uri needs to be handled.
  * @return ESP_OK
  */
-static esp_err_t http_server_favicon_ico_handler(httpd_req_t *req)
+static esp_err_t http_server_favicon_ico_handler(httpd_req_t* req)
 {
 	ESP_LOGI(TAG, "favicon.ico requested");
 
 	httpd_resp_set_type(req, "image/x-icon");
-	httpd_resp_send(req, (const char *)favicon_ico_start, favicon_ico_end - favicon_ico_start);
+	httpd_resp_send(req, (const char*)favicon_ico_start, favicon_ico_end - favicon_ico_start);
 
 	return ESP_OK;
 }
@@ -219,7 +220,7 @@ static esp_err_t http_server_favicon_ico_handler(httpd_req_t *req)
  * @param req HTTP request for which the uri needs to be handled.
  * @return ESP_OK, otherwise ESP_FAIL if timeout occurs and the update cannot be started.
  */
-esp_err_t http_server_OTA_update_handler(httpd_req_t *req)
+esp_err_t http_server_OTA_update_handler(httpd_req_t* req)
 {
 	esp_ota_handle_t ota_handle;
 
@@ -230,7 +231,7 @@ esp_err_t http_server_OTA_update_handler(httpd_req_t *req)
 	bool is_req_body_started = false;
 	bool flash_successful = false;
 
-	const esp_partition_t *update_partition = esp_ota_get_next_update_partition(NULL);
+	const esp_partition_t* update_partition = esp_ota_get_next_update_partition(NULL);
 
 	do
 	{
@@ -255,7 +256,7 @@ esp_err_t http_server_OTA_update_handler(httpd_req_t *req)
 			is_req_body_started = true;
 
 			// Get the location of the .bin file content (remove the web form data)
-			char *body_start_p = strstr(ota_buff, "\r\n\r\n") + 4;
+			char* body_start_p = strstr(ota_buff, "\r\n\r\n") + 4;
 			int body_part_len = recv_len - (body_start_p - ota_buff);
 
 			printf("http_server_OTA_update_handler: OTA file size: %d\r\n", content_length);
@@ -289,7 +290,7 @@ esp_err_t http_server_OTA_update_handler(httpd_req_t *req)
 		// Lets update the partition
 		if (esp_ota_set_boot_partition(update_partition) == ESP_OK)
 		{
-			const esp_partition_t *boot_partition = esp_ota_get_boot_partition();
+			const esp_partition_t* boot_partition = esp_ota_get_boot_partition();
 			ESP_LOGI(TAG, "http_server_OTA_update_handler: Next boot partition subtype %d at offset 0x%lx", boot_partition->subtype, boot_partition->address);
 			flash_successful = true;
 		}
@@ -324,7 +325,7 @@ esp_err_t http_server_OTA_update_handler(httpd_req_t *req)
  * @param req HTTP request for which the uri needs to be handled
  * @return ESP_OK
  */
-esp_err_t http_server_OTA_status_handler(httpd_req_t *req)
+esp_err_t http_server_OTA_status_handler(httpd_req_t* req)
 {
 	char otaJSON[100];
 
@@ -346,12 +347,12 @@ esp_err_t http_server_OTA_status_handler(httpd_req_t *req)
  */
 #include "cJSON.h"
 
-static esp_err_t http_server_wifi_connect_json_handler(httpd_req_t *req)
+static esp_err_t http_server_wifi_connect_json_handler(httpd_req_t* req)
 {
 	size_t header_len;
-	char *header_value;
-	char *ssid_str = NULL;
-	char *pass_str = NULL;
+	char* header_value;
+	char* ssid_str = NULL;
+	char* pass_str = NULL;
 	int content_length;
 
 	ESP_LOGI(TAG, "/wifiConnect.json requested");
@@ -367,7 +368,7 @@ static esp_err_t http_server_wifi_connect_json_handler(httpd_req_t *req)
 	}
 
 	// Allocate memory to store the header value
-	header_value = (char *)malloc(header_len + 1);
+	header_value = (char*)malloc(header_len + 1);
 	if (httpd_req_get_hdr_value_str(req, "Content-Length", header_value, header_len + 1) != ESP_OK)
 	{
 		// Failed to get Content-Length header value
@@ -390,7 +391,7 @@ static esp_err_t http_server_wifi_connect_json_handler(httpd_req_t *req)
 	}
 
 	// Allocate memory for the data buffer based on the content length
-	char *data_buffer = (char *)malloc(content_length + 1);
+	char* data_buffer = (char*)malloc(content_length + 1);
 
 	// Read the request body into the data buffer
 	if (httpd_req_recv(req, data_buffer, content_length) <= 0)
@@ -406,7 +407,7 @@ static esp_err_t http_server_wifi_connect_json_handler(httpd_req_t *req)
 	data_buffer[content_length] = '\0';
 
 	// Parse the received JSON data
-	cJSON *root = cJSON_Parse(data_buffer);
+	cJSON* root = cJSON_Parse(data_buffer);
 	free(data_buffer);
 
 	if (root == NULL)
@@ -417,8 +418,8 @@ static esp_err_t http_server_wifi_connect_json_handler(httpd_req_t *req)
 		return ESP_FAIL;
 	}
 
-	cJSON *ssid_json = cJSON_GetObjectItem(root, "selectedSSID");
-	cJSON *pwd_json = cJSON_GetObjectItem(root, "pwd");
+	cJSON* ssid_json = cJSON_GetObjectItem(root, "selectedSSID");
+	cJSON* pwd_json = cJSON_GetObjectItem(root, "pwd");
 
 	if (ssid_json == NULL || pwd_json == NULL || !cJSON_IsString(ssid_json) || !cJSON_IsString(pwd_json))
 	{
@@ -440,7 +441,7 @@ static esp_err_t http_server_wifi_connect_json_handler(httpd_req_t *req)
 	ESP_LOGI(TAG, "Received Password: %s", pass_str);
 
 	// Update the Wifi networks configuration and let the wifi application know
-	wifi_config_t *wifi_config = wifi_app_get_wifi_config();
+	wifi_config_t* wifi_config = wifi_app_get_wifi_config();
 	memset(wifi_config, 0x00, sizeof(wifi_config_t));
 	memcpy(wifi_config->sta.ssid, ssid_str, strlen(ssid_str));
 	memcpy(wifi_config->sta.password, pass_str, strlen(pass_str));
@@ -460,7 +461,7 @@ static esp_err_t http_server_wifi_connect_json_handler(httpd_req_t *req)
  * @return ESP_OK
  */
 
-static esp_err_t http_server_wifi_connect_status_json_handler(httpd_req_t *req)
+static esp_err_t http_server_wifi_connect_status_json_handler(httpd_req_t* req)
 {
 	ESP_LOGI(TAG, "/wifiConnectStatus requested");
 
@@ -474,13 +475,13 @@ static esp_err_t http_server_wifi_connect_status_json_handler(httpd_req_t *req)
 	return ESP_OK;
 }
 
-static esp_err_t http_server_setRGB_json_handler(httpd_req_t *req)
+static esp_err_t http_server_setRGB_json_handler(httpd_req_t* req)
 {
 	size_t header_len;
-	char *header_value;
-	char *value_R = NULL;
-	char *value_G = NULL;
-	char *value_B = NULL;
+	char* header_value;
+	char* value_R = NULL;
+	char* value_G = NULL;
+	char* value_B = NULL;
 	int content_length;
 
 	ESP_LOGI(TAG, "/setRGB.json requested");
@@ -496,7 +497,7 @@ static esp_err_t http_server_setRGB_json_handler(httpd_req_t *req)
 	}
 
 	// Allocate memory to store the header value
-	header_value = (char *)malloc(header_len + 1);
+	header_value = (char*)malloc(header_len + 1);
 	if (httpd_req_get_hdr_value_str(req, "Content-Length", header_value, header_len + 1) != ESP_OK)
 	{
 		// Failed to get Content-Length header value
@@ -519,7 +520,7 @@ static esp_err_t http_server_setRGB_json_handler(httpd_req_t *req)
 	}
 
 	// Allocate memory for the data buffer based on the content length
-	char *data_buffer = (char *)malloc(content_length + 1);
+	char* data_buffer = (char*)malloc(content_length + 1);
 
 	// Read the request body into the data buffer
 	if (httpd_req_recv(req, data_buffer, content_length) <= 0)
@@ -535,7 +536,7 @@ static esp_err_t http_server_setRGB_json_handler(httpd_req_t *req)
 	data_buffer[content_length] = '\0';
 
 	// Parse the received JSON data
-	cJSON *root = cJSON_Parse(data_buffer);
+	cJSON* root = cJSON_Parse(data_buffer);
 	free(data_buffer);
 
 	if (root == NULL)
@@ -546,9 +547,9 @@ static esp_err_t http_server_setRGB_json_handler(httpd_req_t *req)
 		return ESP_FAIL;
 	}
 
-	cJSON *value_R_json = cJSON_GetObjectItem(root, "value_R");
-	cJSON *value_G_json = cJSON_GetObjectItem(root, "value_G");
-	cJSON *value_B_json = cJSON_GetObjectItem(root, "value_B");
+	cJSON* value_R_json = cJSON_GetObjectItem(root, "value_R");
+	cJSON* value_G_json = cJSON_GetObjectItem(root, "value_G");
+	cJSON* value_B_json = cJSON_GetObjectItem(root, "value_B");
 
 	if (value_R_json == NULL || value_G_json == NULL || value_B_json == NULL || !cJSON_IsString(value_R_json) || !cJSON_IsString(value_G_json) | !cJSON_IsString(value_B_json))
 	{
@@ -587,7 +588,7 @@ static esp_err_t http_server_setRGB_json_handler(httpd_req_t *req)
 	return ESP_OK;
 }
 
-static esp_err_t http_server_show_temp(httpd_req_t *req)
+static esp_err_t http_server_show_temp(httpd_req_t* req)
 {
 	float static value = 0;
 
@@ -595,7 +596,7 @@ static esp_err_t http_server_show_temp(httpd_req_t *req)
 
 	char buffer[12];
 	sprintf(buffer, "%.1f", value);
-	char *value_str = buffer;
+	char* value_str = buffer;
 	ESP_LOGI(TAG, "Actual temperature: %f °C", value);
 
 	httpd_resp_set_type(req, "text/text");
@@ -605,7 +606,7 @@ static esp_err_t http_server_show_temp(httpd_req_t *req)
 	return ESP_OK;
 }
 
-static esp_err_t http_server_get_button_count_handler(httpd_req_t *req)
+static esp_err_t http_server_get_button_count_handler(httpd_req_t* req)
 {
 	char resp[100];
 	int button1_count = get_button_1_press_count();
@@ -618,7 +619,7 @@ static esp_err_t http_server_get_button_count_handler(httpd_req_t *req)
 
 	return ESP_OK;
 }
-static esp_err_t http_server_rgb_uart(httpd_req_t *req)
+static esp_err_t http_server_rgb_uart(httpd_req_t* req)
 {
 	char content[100];
 	int ret = httpd_req_recv(req, content, sizeof(content));
@@ -639,6 +640,34 @@ static esp_err_t http_server_rgb_uart(httpd_req_t *req)
 	}
 
 	httpd_resp_send(req, response, strlen(response));
+	return ESP_OK;
+}
+
+static esp_err_t handle_motor_open(httpd_req_t* req)
+{
+	// Activar los GPIOs para abrir los motores
+	gpio_set_level(motorA1, 0);
+	gpio_set_level(motorA2, 1);
+	gpio_set_level(motorB1, 0);
+	gpio_set_level(motorB2, 1);
+
+	// Enviar respuesta HTTP
+	httpd_resp_send(req, "Motores abiertos", HTTPD_RESP_USE_STRLEN);
+	stop_motors();
+	return ESP_OK;
+}
+
+
+static esp_err_t handle_motor_close(httpd_req_t* req)
+{
+	// Activar los GPIOs para cerrar los motores
+	gpio_set_level(motorA1, 1);
+	gpio_set_level(motorA2, 0);
+	gpio_set_level(motorB1, 1);
+	gpio_set_level(motorB2, 0);
+	// Enviar respuesta HTTP
+	httpd_resp_send(req, "Motores cerrados", HTTPD_RESP_USE_STRLEN);
+	stop_motors();
 	return ESP_OK;
 }
 
@@ -674,9 +703,9 @@ static httpd_handle_t http_server_configure(void)
 	config.send_wait_timeout = 10;
 
 	ESP_LOGI(TAG,
-			 "http_server_configure: Starting server on port: '%d' with task priority: '%d'",
-			 config.server_port,
-			 config.task_priority);
+		"http_server_configure: Starting server on port: '%d' with task priority: '%d'",
+		config.server_port,
+		config.task_priority);
 
 	// Start the httpd server
 	if (httpd_start(&http_server_handle, &config) == ESP_OK)
@@ -688,7 +717,7 @@ static httpd_handle_t http_server_configure(void)
 			.uri = "/jquery-3.3.1.min.js",
 			.method = HTTP_GET,
 			.handler = http_server_jquery_handler,
-			.user_ctx = NULL};
+			.user_ctx = NULL };
 		httpd_register_uri_handler(http_server_handle, &jquery_js);
 
 		// register index.html handler
@@ -696,7 +725,7 @@ static httpd_handle_t http_server_configure(void)
 			.uri = "/",
 			.method = HTTP_GET,
 			.handler = http_server_index_html_handler,
-			.user_ctx = NULL};
+			.user_ctx = NULL };
 		httpd_register_uri_handler(http_server_handle, &index_html);
 
 		// register app.css handler
@@ -704,7 +733,7 @@ static httpd_handle_t http_server_configure(void)
 			.uri = "/app.css",
 			.method = HTTP_GET,
 			.handler = http_server_app_css_handler,
-			.user_ctx = NULL};
+			.user_ctx = NULL };
 		httpd_register_uri_handler(http_server_handle, &app_css);
 
 		// register app.js handler
@@ -712,7 +741,7 @@ static httpd_handle_t http_server_configure(void)
 			.uri = "/app.js",
 			.method = HTTP_GET,
 			.handler = http_server_app_js_handler,
-			.user_ctx = NULL};
+			.user_ctx = NULL };
 		httpd_register_uri_handler(http_server_handle, &app_js);
 
 		// register favicon.ico handler
@@ -720,7 +749,7 @@ static httpd_handle_t http_server_configure(void)
 			.uri = "/favicon.ico",
 			.method = HTTP_GET,
 			.handler = http_server_favicon_ico_handler,
-			.user_ctx = NULL};
+			.user_ctx = NULL };
 		httpd_register_uri_handler(http_server_handle, &favicon_ico);
 
 		// register OTAupdate handler
@@ -728,7 +757,7 @@ static httpd_handle_t http_server_configure(void)
 			.uri = "/OTAupdate",
 			.method = HTTP_POST,
 			.handler = http_server_OTA_update_handler,
-			.user_ctx = NULL};
+			.user_ctx = NULL };
 		httpd_register_uri_handler(http_server_handle, &OTA_update);
 
 		// register OTAstatus handler
@@ -736,7 +765,7 @@ static httpd_handle_t http_server_configure(void)
 			.uri = "/OTAstatus",
 			.method = HTTP_POST,
 			.handler = http_server_OTA_status_handler,
-			.user_ctx = NULL};
+			.user_ctx = NULL };
 		httpd_register_uri_handler(http_server_handle, &OTA_status);
 
 		// register dhtSensor.json handler
@@ -748,12 +777,12 @@ static httpd_handle_t http_server_configure(void)
 		};
 		httpd_register_uri_handler(http_server_handle, &dht_sensor_json);
 */
-		// register wifiConnect.json handler
+// register wifiConnect.json handler
 		httpd_uri_t wifi_connect_json = {
 			.uri = "/wifiConnect.json",
 			.method = HTTP_POST,
 			.handler = http_server_wifi_connect_json_handler,
-			.user_ctx = NULL};
+			.user_ctx = NULL };
 		httpd_register_uri_handler(http_server_handle, &wifi_connect_json);
 
 		// register wifiConnectStatus.json handler
@@ -761,36 +790,50 @@ static httpd_handle_t http_server_configure(void)
 			.uri = "/wifiConnectStatus",
 			.method = HTTP_POST,
 			.handler = http_server_wifi_connect_status_json_handler,
-			.user_ctx = NULL};
+			.user_ctx = NULL };
 		httpd_register_uri_handler(http_server_handle, &wifi_connect_status_json);
 
 		httpd_uri_t set_RGB_json = {
 			.uri = "/setRGB.json",
 			.method = HTTP_POST,
 			.handler = http_server_setRGB_json_handler,
-			.user_ctx = NULL};
+			.user_ctx = NULL };
 		httpd_register_uri_handler(http_server_handle, &set_RGB_json);
 
 		httpd_uri_t show_temp = {
 			.uri = "/showTemp",
 			.method = HTTP_GET,
 			.handler = http_server_show_temp,
-			.user_ctx = NULL};
+			.user_ctx = NULL };
 		httpd_register_uri_handler(http_server_handle, &show_temp);
 
 		httpd_uri_t buttonCount = {
 			.uri = "/getButtonCount",
 			.method = HTTP_GET,
 			.handler = http_server_get_button_count_handler,
-			.user_ctx = NULL};
+			.user_ctx = NULL };
 		httpd_register_uri_handler(http_server_handle, &buttonCount);
 
 		httpd_uri_t rgbUart = {
 			.uri = "/setRGBuart",
 			.method = HTTP_POST,
 			.handler = http_server_rgb_uart,
-			.user_ctx = NULL};
+			.user_ctx = NULL };
 		httpd_register_uri_handler(http_server_handle, &rgbUart);
+
+		httpd_uri_t openMotor = {
+		.uri = "/motorAYBabrir",
+		.method = HTTP_POST,
+		.handler = handle_motor_open,
+		.user_ctx = NULL };
+		httpd_register_uri_handler(http_server_handle, &openMotor);
+
+		httpd_uri_t closeMotor = {
+		.uri = "/motorAYBcerrar",
+		.method = HTTP_POST,
+		.handler = handle_motor_close,
+		.user_ctx = NULL };
+		httpd_register_uri_handler(http_server_handle, &closeMotor);
 
 		return http_server_handle;
 	}
@@ -829,7 +872,7 @@ BaseType_t http_server_monitor_send_message(http_server_message_e msgID)
 	return xQueueSend(http_server_monitor_queue_handle, &msg, portMAX_DELAY);
 }
 
-void http_server_fw_update_reset_callback(void *arg)
+void http_server_fw_update_reset_callback(void* arg)
 {
 	ESP_LOGI(TAG, "http_server_fw_update_reset_callback: Timer timed-out, restarting the device");
 	esp_restart();

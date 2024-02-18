@@ -8,7 +8,7 @@
 #define BOTON_PIN 19
 #define LED1_PIN GPIO_NUM_21
 #define LED2_PIN GPIO_NUM_22
-#define LED3_PIN GPIO_NUM_23
+#define LED3_PIN GPIO_NUM_33
 #define POT_PIN ADC1_CHANNEL_7
 
 int led_actual = 0;
@@ -52,7 +52,7 @@ void configurar_ledc()
     ledc_timer_config(&ledc_timer);
 }
 
-void boton_isr_handler(void *arg)
+void boton_isr_handler(void* arg)
 {
     led_actual = (led_actual + 1) % 3;
 }
@@ -63,7 +63,7 @@ void app_main(void)
     configurar_ledc();
 
     gpio_install_isr_service(0);
-    gpio_isr_handler_add(BOTON_PIN, boton_isr_handler, (void *)BOTON_PIN);
+    gpio_isr_handler_add(BOTON_PIN, boton_isr_handler, (void*)BOTON_PIN);
 
     while (1)
     {
